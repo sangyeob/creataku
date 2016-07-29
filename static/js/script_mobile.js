@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('div.btn1').click(function() {
-		$('html, body').animate({scrollTop: parseInt($('html').prop('scrollHeight') * 0.6232)}, 500);
+		$('.realbody').animate({scrollTop: parseInt($('.realbody').prop('scrollHeight') * 0.6232)}, 500);
 	});
 	$('div.btn2').click(function() {
 		window.open('/mobile/request_form/');
