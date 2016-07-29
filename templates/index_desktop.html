@@ -4,430 +4,9 @@
 	<meta charset="UTF-8">
 	<title>CREATKU :: 나만의 창의적 콜렉팅</title>
 	<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
-	<link rel='icon' href='/static/img/favicon.ico' type='image/x-icon'/ >
-	<script>
-	$(document).ready(function() {
-		$.fn.shake = function (options) {
-	        // defaults
-	        var settings = {
-	            'shakes': 2,
-	            'distance': 10,
-	            'duration': 200
-	        };
-	        // merge options
-	        if (options) {
-	            $.extend(settings, options);
-	        }
-	        // make it so
-	        var pos;
-	        return this.each(function () {
-	            $this = $(this);
-	            // position if necessary
-	            pos = $this.css('position');
-	            if (!pos || pos === 'static') {
-	                $this.css('position', 'relative');
-	            }
-	            // shake it
-	            for (var x = 1; x <= settings.shakes; x++) {
-	                $this.animate({ left: settings.distance * -1 }, (settings.duration / settings.shakes) / 4)
-	                    .animate({ left: settings.distance }, (settings.duration / settings.shakes) / 2)
-	                    .animate({ left: 0 }, (settings.duration / settings.shakes) / 4);
-	            }
-	        });
-	    };
-
-	    $('section.page1 div.button1').click(function() {
-	    	var $wrapper = $('div.sectionWrapper');
-			$wrapper.addClass('blockEvent');
-			var currentPage = 6;
-			$wrapper.attr('data-current-page', currentPage)
-			for(var i = 1; i <= 6; i ++) {
-				$wrapper.removeClass('currentPage' + i);
-			}
-			$wrapper.addClass('currentPage' + currentPage);
-
-			setTimeout(function() {
-				$('div.sectionWrapper').removeClass('blockEvent');
-			}, 1500);
-	    });
-
-	    $('section.page1 div.button2').click(function() {
-	    	var $wrapper = $('div.sectionWrapper');
-			$wrapper.addClass('blockEvent');
-			var currentPage = 5;
-			$wrapper.attr('data-current-page', currentPage)
-			for(var i = 1; i <= 6; i ++) {
-				$wrapper.removeClass('currentPage' + i);
-			}
-			$wrapper.addClass('currentPage' + currentPage);
-
-			setTimeout(function() {
-				$('div.sectionWrapper').removeClass('blockEvent');
-			}, 1500);
-	    });
-
-		$('div.logo').click(function() {
-			var $wrapper = $('div.sectionWrapper');
-			$wrapper.addClass('blockEvent');
-			var currentPage = 1;
-			$wrapper.attr('data-current-page', currentPage)
-			for(var i = 1; i <= 6; i ++) {
-				$wrapper.removeClass('currentPage' + i);
-			}
-			$wrapper.addClass('currentPage' + currentPage);
-
-			setTimeout(function() {
-				$('div.sectionWrapper').removeClass('blockEvent');
-			}, 1500);
-		});
-		$('nav.dotnav li').click(function() {
-			var $wrapper = $('div.sectionWrapper');
-			$wrapper.addClass('blockEvent');
-			var currentPage = +$(this).attr('data-page-number');
-			$wrapper.attr('data-current-page', currentPage)
-			for(var i = 1; i <= 6; i ++) {
-				$wrapper.removeClass('currentPage' + i);
-			}
-			$wrapper.addClass('currentPage' + currentPage);
-
-			setTimeout(function() {
-				$('div.sectionWrapper').removeClass('blockEvent');
-			}, 1500);
-		});
-		$('div.sectionWrapper').bind('mousewheel DOMMouseScroll', function(e) {
-			if($(this).hasClass('blockEvent')) return false;
-			var currentPage = +$(this).attr('data-current-page');
-			if(e.originalEvent.wheelDelta > 20 || e.originalEvent.detail < 0) {
-				// scrolling up	
-				if(currentPage == 1) return false;
-				currentPage -= 1;
-				
-			} else if (e.originalEvent.wheelDelta < -20 || e.originalEvent.detail > 0) {
-				// scrolling down
-				if(currentPage == 6) return false;
-				currentPage += 1;
-			}
-			else { return false; }
-			$(this).addClass('blockEvent');
-			$(this).attr('data-current-page', currentPage);
-			for(var i = 1; i <= 6; i ++) {
-				$(this).removeClass('currentPage' + i);
-			}
-			$(this).addClass('currentPage' + currentPage);
-
-			setTimeout(function() {
-				$('div.sectionWrapper').removeClass('blockEvent');
-			}, 1500);
-		});
-
-		$('section.page5 div.submit').click(function() {
-			if($(this).parents('article').hasClass('form_collector')) {
-				var flag = false;
-				if($('section.page5 article.form_collector input.field').val().trim() == "") {
-					$('section.page5 article.form_collector input.field').shake();
-					$('section.page5 article.form_collector input.field').focus();
-					flag = true;
-				}
-				if($('section.page5 article.form_collector input.email').val().trim() == "") {
-					$('section.page5 article.form_collector input.email').shake();
-					$('section.page5 article.form_collector input.email').focus();
-					flag = true;
-				}
-				if($('section.page5 article.form_collector input.name').val().trim() == "") {
-					$('section.page5 article.form_collector input.name').shake();
-					$('section.page5 article.form_collector input.name').focus();
-					flag = true;
-				}
-				if(flag) return false;
-				$('section.page5 article.form_collector').addClass('finishing');
-				$.ajax({
-					url: '/register_collector/',
-					contentType: 'application/json;chatset=UTF-8',
-					method: 'POST',
-					data: JSON.stringify({
-						name: $('section.page5 article.form_collector input.name').val().trim(),
-						email: $('section.page5 article.form_collector input.email').val().trim(),
-						field: $('section.page5 article.form_collector input.field').val().trim(),
-					}),
-					success: function(data, status, jqxhr) {
-						$('section.page5 article.form_collector').removeClass('finishing');
-						$('section.page5 article.form_collector').addClass('finished');
-					},
-					error: function(req, st, error) {
-						$('section.page5 article.form_collector').removeClass('finishing');
-						alert('에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
-					} 
-				});
-			} else {
-				var flag = false;
-				if($('section.page5 article.form_creator input.email').val().trim() == "") {
-					$('section.page5 article.form_creator input.email').shake();
-					$('section.page5 article.form_creator input.email').focus();
-					flag = true;
-				}
-				if($('section.page5 article.form_creator input.mobile').val().trim() == "") {
-					$('section.page5 article.form_creator input.mobile').shake();
-					$('section.page5 article.form_creator input.mobile').focus();
-					flag = true;
-				}
-				if($('section.page5 article.form_creator input.field').val().trim() == "") {
-					$('section.page5 article.form_creator input.field').shake();
-					$('section.page5 article.form_creator input.field').focus();
-					flag = true;
-				}
-				if($('section.page5 article.form_creator input.nickname').val().trim() == "") {
-					$('section.page5 article.form_creator input.nickname').shake();
-					$('section.page5 article.form_creator input.nickname').focus();
-					flag = true;
-				}
-				if($('section.page5 article.form_creator input.name').val().trim() == "") {
-					$('section.page5 article.form_creator input.name').shake();
-					$('section.page5 article.form_creator input.name').focus();
-					flag = true;
-				}
-				if(flag) return false;
-				$('section.page5 article.form_creator').addClass('finishing');
-				$.ajax({
-					url: '/register_creator/',
-					contentType: 'application/json;chatset=UTF-8',
-					method: 'POST',
-					data: JSON.stringify({
-						name: $('section.page5 article.form_creator input.name').val().trim(),
-						email: $('section.page5 article.form_creator input.email').val().trim(),
-						field: $('section.page5 article.form_creator input.field').val().trim(),
-						nickname: $('section.page5 article.form_creator input.nickname').val().trim(),
-						mobile: $('section.page5 article.form_creator input.mobile').val().trim(),
-					}),
-					success: function(data, status, jqxhr) {
-						$('section.page5 article.form_creator').removeClass('finishing');
-						$('section.page5 article.form_creator').addClass('finished');
-					},
-					error: function(req, st, error) {
-						$('section.page5 article.form_creator').removeClass('finishing');
-						alert('에러가 발생했습니다. 잠시 후 다시 시도해주세요.');
-					} 
-				});
-			}
-		});
-		$('section.page6 div.inputwrapper input').bind('change', function() {
-			$('section.page6 div.inputwrapper').addClass('selected');
-		});
-		$('section.page6 div.submit').click(function() {
-			var flag = false;
-			if($('section.page6 textarea').val().trim() == "") {
-				$('section.page6 textarea').shake();
-				$('section.page6 textarea').focus();
-				flag = true;
-			}
-			if($('section.page6 input.email').val().trim() == "") {
-				$('section.page6 input.email').shake();
-				$('section.page6 input.email').focus();
-				flag = true;
-			}
-			if($('section.page6 input.name').val().trim() == "") {
-				$('section.page6 input.name').shake();
-				$('section.page6 input.name').focus();
-				flag = true;
-			}
-			if(flag) return false;
-			$('section.page6 div.form_request').addClass('finishing');
-			var fd = new FormData($('section.page6 form')[0]);
-			console.log(fd);
-
-			$.ajax({
-		        url: '/request/',
-		        type: 'POST',
-		        data: fd,
-		        async: false,
-		        success: function (data) {
-		            $('section.page6 div.form_request').removeClass('finishing');
-		            $('section.page6 div.form_request').addClass('finished');
-		        },
-		        cache: false,
-		        contentType: false,
-		        processData: false
-		    });
-
-		});
-	});
-	</script>
-	<style>
-		@keyframes loader {
-			100% { background-position: 0 -1440px; }
-		}
-
-		.loader { width: 80px; height: 80px; background: url(/static/img/loader.png) 0 0 no-repeat transparent; animation: loader 1s steps(18) infinite;  }
-
-		@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
-		html, body, section.page { width: 100vw; height: 100vh; margin: 0; padding: 0; overflow: hidden; font-family: 'Noto Sans KR', sans-serif; }
-
-		div.sectionWrapper { width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: 1; transition: top .5s; }
-
-		section.page { position: relative; }
-
-		section.page1 { background: url(/static/img/mainbg/mainbg2.png) 0 0 no-repeat transparent; background-size: cover; }
-		section.page2 { background-color: #0067ff; }
-		section.page3 { background-color: #ffb400; }
-		section.page4 { background-color: #dc291c; }
-		section.page5 { background: url(/static/img/mainbg/mainbg6.png) 0 0 no-repeat transparent; background-size: cover; }
-		section.page6 { background-color: #270000; }
-
-		div.sectionWrapper.currentPage1 { top: 0; }
-		div.sectionWrapper.currentPage2 { top: -100vh; }
-		div.sectionWrapper.currentPage3 { top: -200vh; }
-		div.sectionWrapper.currentPage4 { top: -300vh; }
-		div.sectionWrapper.currentPage5 { top: -400vh; }
-		div.sectionWrapper.currentPage6 { top: -500vh; }
-		
-		
-		nav.dotnav { position: fixed; width: 100vw; height: 5vh; top: 0; left: 0; z-index: 10; background-color: white; transition: background-color .5s; transition-delay: .3s; }
-		nav.dotnav ul { margin: 0; padding: 0; list-style: none; width: 95vw; padding: 0 2.5vw; height: 5vh; text-align: right; }
-		nav.dotnav ul li { height: 5vh; line-height: 5vh; padding: 0 2vw; display: inline-block; cursor: pointer; transition: background-color .25s, color .25s; transition-delay: .25s; }
-		div.sectionWrapper.currentPage1 nav { background-color: transparent; color: white; }
-		/*div.sectionWrapper.currentPage1 nav li.dot1 { background-color: #231f20; color: white; }*/
-		div.sectionWrapper.currentPage2 nav li.dot2 { background-color: #0067ff; color: white; }
-		div.sectionWrapper.currentPage3 nav li.dot3 { background-color: #ffb400; color: #270000; }
-		div.sectionWrapper.currentPage4 nav li.dot4 { background-color: #dc291c; color: white; }
-		div.sectionWrapper.currentPage5 nav li.dot5 { background-color: #270000; color: white; }
-		div.sectionWrapper.currentPage6 nav li.dot6 { background-color: #270000; color: white; }
-		nav.dotnav ul li:last-child { margin-bottom: 0; }
-
-		div.logo { width: 18.69vh; height: 3vh; position: fixed; top: 1vh; left: 4.5vw; transition: opacity .5s, width .5s, height .5s; z-index: 100; cursor: pointer; opacity: 1; }
-		div.sectionWrapper.currentPage1 div.logo { opacity: 0; cursor: default; }
-		div.logo img { width: 100%; height: 100%; }
-
-		div.logo2 { width: 23.8vw; height: 3.82vw; position: absolute; top: 28.45vh; left: 200vw; transition: top .5s, left .5s, width .5s, height .5s; z-index: 100; cursor: pointer; transition-delay: .2s; }
-		div.logo2 img { width: 100%; height: 100%; }
-		div.sectionWrapper.currentPage1 div.logo2 { cursor: default; }
-		div.sectionWrapper.currentPage1 div.logo2 { width: 23.8vw; height: 3.82vw; position: absolute; top: 28.45vh; left: 68.75vw; }
-
-		section.page1 div.text2 { height: 3vh; font-size: 1.5vw; line-height: 3vh; color: white; text-align: center; position: absolute; top: 0vh; left: 68.75vw; transition: top .5s; }
-		section.page1 div.button1 { width: 23.8vw; height: 3.82vw; position: absolute; top: 53vh; left: 168.75vw; line-height: 3.82vw; font-size: 1.2vw; text-align: center; color: #ffb400; border: 1px solid #ffb400; border-radius: 1vw; cursor: pointer; transition: left .5s; transition-delay: .3s; }
-		section.page1 div.button1:hover { background-color: #ffb400; color: #270000; }
-		section.page1 div.button2 { width: 23.8vw; height: 3.82vw; position: absolute; top: 43vh; left: 168.75vw; line-height: 3.82vw; font-size: 1.2vw; text-align: center; color: #ffffff; border: 1px solid #ffffff; border-radius: 1vw; cursor: pointer; transition: left .5s; transition-delay: .4s; }
-		section.page1 div.credit1 { position: absolute; left: 3vw; bottom: -10vw; font-size: 1vw; color: white; line-height: 2vw; transition: bottom .5s; transition-delay: .3s; font-weight: bold; }
-		section.page1 div.credit2 { position: absolute; left: 3vw; bottom: -10vw; font-size: 1vw; color: white; line-height: 2vw; transition: bottom .5s; transition-delay: .35s; }
-		section.page1 div.credit3 { position: absolute; left: 3vw; bottom: -10vw; font-size: 1vw; color: white; line-height: 2vw; transition: bottom .5s; transition-delay: .4s; }
-		section.page1 div.button2:hover { background-color: #ffffff; color: #270000; }
-		div.sectionWrapper.currentPage1 section.page1 div.text2 { top: 23.5vh; }
-		div.sectionWrapper.currentPage1 div.button1 { left: 68.75vw; }
-		div.sectionWrapper.currentPage1 div.button2 { left: 68.75vw; }
-		div.sectionWrapper.currentPage1 section.page1 div.credit1 { bottom: 7vw; }
-		div.sectionWrapper.currentPage1 section.page1 div.credit2 { bottom: 5vw; }
-		div.sectionWrapper.currentPage1 section.page1 div.credit3 { bottom: 3vw; }
-
-
-
-		section.page3 div.title { font-size: 4vh; text-align: center; color: #270000; position: absolute; opacity: 0; top: -20vh; left: 0; width: 100vw; transition: opacity .5s, top .5s; transition-delay: .3s; }
-		section.page3 ul { margin: 0; padding: 0; list-style: none; }
-		section.page3 li { position: absolute; top: 40vh; width: 20vw; transition: top .5s, opacity .5s; color: white; font-size: 2vh; }
-		section.page3 li img { width: 10vw; margin: 0 5vw 2vw;}
-		section.page3 li div.text { text-align: center; color: #270000; }
-		section.page3 li div.text div.main { font-size: 2.5vh; margin-bottom: 1vh; }
-		section.page3 li div.text div.sub { font-size: 2vh; }
-		section.page3 li.step1 { left: 15vw; top: 60vh; transition-delay: .5s; opacity: 0; }
-		section.page3 li.step2 { left: 40vw; top: 60vh; transition-delay: .7s; opacity: 0; }
-		section.page3 li.step3 { left: 65vw; top: 60vh; transition-delay: .9s; opacity: 0; }
-		div.sectionWrapper.currentPage3 section.page3 div.title { top: 20vh; opacity: 1; }
-		div.sectionWrapper.currentPage3 section.page3 li.step1 { left: 15vw; top: 40vh; opacity: 1; }
-		div.sectionWrapper.currentPage3 section.page3 li.step2 { left: 40vw; top: 40vh; opacity: 1; }
-		div.sectionWrapper.currentPage3 section.page3 li.step3 { left: 65vw; top: 40vh; opacity: 1; }
-	
-
-		section.page4 div.head { font-size: 3vh; line-height: 5vh; height: 5vh; position: absolute; top: 40vh; left: 0vh; color: white; opacity: 0; transition: opacity .5s, left .5s; }
-		section.page4 div.sub { font-size: 2.5vh; line-height: 4vh; height: 10vh; position: absolute; top: 120vh; left: 20vh; color: white; opacity: 0; transition: opacity .5s, top .5s; }
-		div.sectionWrapper.currentPage4 section.page4 div.head { left: 20vh; opacity: 1; transition-delay: .5s; }
-		div.sectionWrapper.currentPage4 section.page4 div.sub { top: 50vh; opacity: 1; transition-delay: 1s; }
-		section.page4 ul { margin: 0; padding: 0; list-style: none; }
-		section.page4 ul li { position: absolute; }
-		section.page4 ul li.large { width: 30vh; height: 40vh; top: 35vh; left: calc(100vw - 65vh); position: relative; z-index: 10; opacity: 0; transition: opacity 1s; }
-		section.page4 ul li.large div.image { width: 30vh; height: 30vh; overflow: hidden; }
-		section.page4 ul li.large div.image img { width: 100%; height: 100%; }
-		section.page4 ul li.large div.title { font-size: 2.5vh; line-height: 6vh; color: white; text-align: center; }
-		section.page4 ul li.subfield { width: 15vh; height: 25vh; top: 42.5vh; left: calc(100vw - 57.5vh); transition: left .3s, top .3s, opacity .5s; opacity: 0; }
-		section.page4 ul li.subfield div.image { width: 15vh; height: 15vh; overflow: hidden; }
-		section.page4 ul li.subfield div.image img { width: 100%; height: 100%; }
-		section.page4 ul li.subfield div.title { font-size: 2vh; line-height: 5vh; color: white; text-align: center; }
-		section.page4 ul li.field1 { transition-delay: .5s; }
-		section.page4 ul li.field2 { transition-delay: .6s; }
-		section.page4 ul li.field3 { transition-delay: .7s; }
-		section.page4 ul li.field4 { transition-delay: .8s; }
-		section.page4 ul li.field5 { transition-delay: .9s; }
-		section.page4 ul li.field6 { transition-delay: 1s; }
-		section.page4 ul li.field7 { transition-delay: 1.1s; }
-		section.page4 ul li.field8 { transition-delay: 1.2s; }
-		section.page4 ul li.field9 { transition-delay: 1.3s; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.large { opacity: 1; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field1 { opacity: 1; left: calc(100vw - 27.5vh); top: 42.5vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field2 { opacity: 1; left: calc(100vw - 34.52vh); top: 23.21vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field3 { opacity: 1; left: calc(100vw - 52.29vh); top: 12.95vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field4 { opacity: 1; left: calc(100vw - 72.5vh); top: 16.51vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field5 { opacity: 1; left: calc(100vw - 85.69vh); top: 32.23vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field6 { opacity: 1; left: calc(100vw - 85.69vh); top: 52.76vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field7 { opacity: 1; left: calc(100vw - 72.5vh); top: 68.48vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field8 { opacity: 1; left: calc(100vw - 52.29vh); top: 72.04vh; }
-		div.sectionWrapper.currentPage4 section.page4 ul li.field9 { opacity: 1; left: calc(100vw - 34.52vh); top: 61.78vh; }
-
-		section.page5 article { width: 35vw; height: 70vh; position: absolute; top: 15vh; opacity: 0; transition: opacity .7s; transition-delay: .5s; }
-		section.page5 article div.header { font-size: 2vh; line-height: 3vh; height: 6vh; width: 35vw; color: white; margin-bottom: 3vh; margin-top: 1vh; text-align: center; }
-		section.page5 article div.label { font-size: 1.5vh; line-height: 3vh; height: 3vh; color: white; width: 27vw; margin: 2vh 3vw 1vh; }
-		section.page5 article input { border: 0px none; width: 25vw; height: 4vh; line-height: 4vh; font-size: 2vh; background-color: white; color: #270000; padding: 0 2vw; margin: 0 3vw; border-radius: .5vw; }
-		section.page5 article div.submit { border: 0px none; width: 25vw; height: 4vh; line-height: 4vh; font-size: 2vh; background-color: white; color: #270000; padding: 1vh 2vw; margin: 6vh 3vw 0; border-radius: .5vw; cursor: pointer; text-align: center; }
-		section.page5 article.form_collector div.header { margin-bottom: 8vh; margin-top: 8vh; }
-		section.page5 article.form_collector { left: 10vw; }
-		section.page5 article.form_creator { left: 55vw; transition-delay: .8s; }
-		section.page5 div.divider { width: 1px; height: 75vh; position: absolute; top: 42.5vh; left: 50vw; background-color: white; opacity: 0; transition: top 1s, opacity 1.5s; transition-delay: 1s; }
-		section.page5 article div.finished { display: none; opacity: 0; transition: opacity .5s; transition-delay: .5s; color: white; font-size: 2vh; width: 35vw; text-align: center; position: absolute; top: 35vh; }
-		section.page5 div.loader { display: none; }
-		div.sectionWrapper.currentPage5 section.page5 article { opacity: 1; }
-		div.sectionWrapper.currentPage5 section.page5 div.divider { opacity: 1; top: 12.5vh; }
-		div.sectionWrapper.currentPage5 section.page5 article div.label,
-		div.sectionWrapper.currentPage5 section.page5 article div.submit,
-		div.sectionWrapper.currentPage5 section.page5 article input { opacity: 1; transition: opacity .5s; }
-		div.sectionWrapper.currentPage5 section.page5 article.finishing div.label,
-		div.sectionWrapper.currentPage5 section.page5 article.finishing div.submit,
-		div.sectionWrapper.currentPage5 section.page5 article.finishing input { opacity: 0; }
-		div.sectionWrapper.currentPage5 section.page5 article.finishing div.loader { display: block; }
-		div.sectionWrapper.currentPage5 section.page5 article.finished div.label,
-		div.sectionWrapper.currentPage5 section.page5 article.finished div.submit,
-		div.sectionWrapper.currentPage5 section.page5 article.finished input { display: none; }
-		div.sectionWrapper.currentPage5 section.page5 article.finished div.finished { display: block; opacity: 1; }
-		section.page5 div.credit1 { position: absolute; left: 3vw; bottom: -10vw; font-size: 1vw; color: white; line-height: 2vw; transition: bottom .5s; transition-delay: .3s; font-weight: bold; }
-		section.page5 div.credit2 { position: absolute; left: 3vw; bottom: -10vw; font-size: 1vw; color: white; line-height: 2vw; transition: bottom .5s; transition-delay: .35s; }
-		section.page5 div.credit3 { position: absolute; left: 3vw; bottom: -10vw; font-size: 1vw; color: white; line-height: 2vw; transition: bottom .5s; transition-delay: .4s; }
-		section.page5 div.button2:hover { background-color: #dc291c; color: white; }
-		div.sectionWrapper.currentPage5 section.page5 div.credit1 { bottom: 7vw; }
-		div.sectionWrapper.currentPage5 section.page5 div.credit2 { bottom: 5vw; }
-		div.sectionWrapper.currentPage5 section.page5 div.credit3 { bottom: 3vw; }
-
-		section.page6 div.form_request { width: 40vw; height: 70vh; position: absolute; top: 15vh; left: 30vw; color: white; }
-		section.page6 div.form_request div.header { font-size: 4vh; line-height: 5vh; text-align: center; position: relative; top: 10vh; transition: top .5s, opacity .5s; opacity: 0; transition-delay: .3s; }
-		section.page6 div.form_request div.subheader { font-size: 1.5vh; line-height: 5vh; text-align: center; margin-bottom: 2vh; position: relative; top: 10vh; transition: top .5s, opacity .5s; opacity: 0; transition-delay: .4s; }
-		section.page6 div.label { font-size: 1.5vh; line-height: 3vh; height: 3vh; color: white; width: 34vw; margin: 2vh 3vw 1vh; position: relative; top: 10vh; transition: top .5s, opacity .5s; opacity: 0; transition-delay: .5s; }
-		section.page6 div.label span { font-size: 1.2vh; line-height: 3vh; }
-		section.page6 input { border: 0px none; width: 30vw; height: 4vh; line-height: 4vh; font-size: 2vh; background-color: white; color: #270000; padding: 0 2vw; margin: 0 3vw; border-radius: .5vw; position: relative; top: 10vh; transition: top .5s, opacity .5s; opacity: 0; transition-delay: .5s; }
-		section.page6 div.inputwrapper { width: 34vw; height: 10vh; margin: 0 3vw; border-radius: .5vw; cursor: pointer; border: 1px solid white; background: url(/static/img/icon_image_blue2.png) 50% 50% no-repeat white; background-size: 10%; position: relative; top: 10vh; transition: top .5s, opacity .5s; transition-delay: .5s;opacity: 0; }
-		section.page6 div.inputwrapper:hover { background-color: #eeeeee; }
-		section.page6 div.inputwrapper input { margin: 0; padding: 0; width: 100%; height: 100%; opacity: 0.01; cursor: pointer; }
-		section.page6 div.inputwrapper.selected { background: url(/static/img/icon_image2.png) 50% 50% no-repeat transparent; background-size: 10%; }
-		section.page6 textarea { border: 0px none; width: 30vw; height: 9vh; line-height: 3vh; font-size: 1.8vh; background-color: white; color: #270000; padding: 0 2vw; margin: 0 3vw; border-radius: .5vw; resize: none; position: relative; top: 10vh; transition: top .5s, opacity .5s; opacity: 0; transition-delay: .5s; }
-		section.page6 div.submit { border: 0px none; width: 30vw; height: 4vh; line-height: 4vh; font-size: 2vh; background-color: white; color: #270000; padding: 1vh 2vw; margin: 6vh 3vw 0; border-radius: .5vw; cursor: pointer; text-align: center; position: relative; top: 10vh; transition: top .5s, opacity .5s; opacity: 0; transition-delay: .7s; }
-		div.sectionWrapper.currentPage6 form { transition: opacity .5s; opacity: 1; }
-		section.page6 div div.finished { opacity: 0; display: none; font-size: 2vh; text-align: center; margin-top: 30vh; transition: opacity .5s; }
-
-		div.sectionWrapper.currentPage6 section.page6 div.inputwrapper { top: 0; opacity: 1; }
-		div.sectionWrapper.currentPage6 section.page6 div.form_request div.header { top: 0; opacity: 1; }
-		div.sectionWrapper.currentPage6 section.page6 div.form_request div.subheader { top: 0; opacity: 1; }
-		div.sectionWrapper.currentPage6 section.page6 div.label { top: 0; opacity: 1; }
-		div.sectionWrapper.currentPage6 section.page6 textarea { top: 0; opacity: 1; }
-		div.sectionWrapper.currentPage6 section.page6 input { top: 0; opacity: 1; }
-		div.sectionWrapper.currentPage6 section.page6 div.inputwrapper input { opacity: 0.01; }
-		div.sectionWrapper.currentPage6 section.page6 div.submit { top: 0; opacity: 1; }
-
-		section.page6 div.finishing form { opacity: 0; }
-		section.page6 div.finished form { display: none; }
-		section.page6 div.finished div.finished { opacity: 1; display: block; }
-	</style>
+	<link rel='icon' href='/static/img/favicon.ico' type='image/x-icon'/>
+	<script src="/static/js/script_desktop.js"></script>
+	<link rel="stylesheet" href="/static/css/css_desktop.css" />
 </head>
 <body>
 	<div class="sectionWrapper currentPage1" data-current-page="1">
@@ -447,26 +26,30 @@
 			<div class="logo2"><img src="/static/img/logowhite.png" /></div>
 		</section>
 		<section class="page page2" data-page-number="2">
+			<div class="title">나의 상상 그 이상의 콜렉팅</div>
+			<div class="credit1">Studio111 모델러 MK마르스  |</div>
+			<div class="credit2">http://blog.naver.com/marce25  |</div>
+			<div class="credit3">I.W. NO.2 PG GAT-X-105 STRIKE GUNDAM  |</div>
 		</section>
 		<section class="page page3" data-page-number="3">
 			<div class="title">의뢰는 어떻게 진행되나요?</div>
 			<ul class="steps">
 				<li class="step1">
-					<div><img src="http://placehold.it/100x100/" /></div>
+					<div><img src="/static/img/stepicon1.png" /></div>
 					<div class="text">
 						<div class="main">의뢰 요청</div>
 						<div class="sub">의뢰 내용을 입력합니다</div>
 					</div>
 				</li>
 				<li class="step2">
-					<div><img src="http://placehold.it/100x100/" /></div>
+					<div><img src="/static/img/stepicon2.png" /></div>
 					<div class="text">
 						<div class="main">크리에이터 매칭</div>
 						<div class="sub">의뢰를 맡아주실 크리에이터분들을<br />안내해드립니다</div>
 					</div>
 				</li>
 				<li class="step3">
-					<div><img src="http://placehold.it/100x100/" /></div>
+					<div><img src="/static/img/stepicon3.png" /></div>
 					<div class="text">
 						<div class="main">크리에이터 선택</div>
 						<div class="sub">나만의 작품을 만들어주실<br />크리에이터를 선택합니다</div>
@@ -517,7 +100,7 @@
 				<div class="submit">보내기</div>
 				<div class="finished">신청해주셔서 감사합니다 :)</div>
 			</article>
-			<div class="credit1">|  바람둥이소닉</div>
+			<div class="credit1">|  바람둥이쏘닉</div>
 			<div class="credit2">|  http://sonic1o5.blog.me/</div>
 			<div class="credit3">|  JUNK-GUILD's CUSTOMIZE MOBILE SUIT MBF-P02 GUNDAM ASTRAY FRAME DUST MEMORY Edition</div>
 			<div class="divider"></div>

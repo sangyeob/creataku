@@ -1,0 +1,13 @@
+LICENSE.txt
+MANIFEST.in
+README.md
+setup.cfg
+dockerpty/__init__.py
+dockerpty/io.py
+dockerpty/pty.py
+dockerpty/tty.py
+pip-egg-info/dockerpty.egg-info/PKG-INFO
+pip-egg-info/dockerpty.egg-info/SOURCES.txt
+pip-egg-info/dockerpty.egg-info/dependency_links.txt
+pip-egg-info/dockerpty.egg-info/requires.txt
+pip-egg-info/dockerpty.egg-info/top_level.txt

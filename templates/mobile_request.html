@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>CREATKU :: 나만의 창의적 콜렉팅</title>
+	<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+	<link rel='icon' href='/static/img/favicon.ico' type='image/x-icon'/>
+	<script>
+	$(document).ready(function() {
+		$('div.inputwrapper input').bind('change', function() {
+			$('div.inputwrapper').addClass('selected');
+		});
+		$.fn.shake = function (options) {
+	        // defaults
+	        var settings = {
+	            'shakes': 2,
+	            'distance': 10,
+	            'duration': 200
+	        };
+	        // merge options
+	        if (options) {
+	            $.extend(settings, options);
+	        }
+	        // make it so
+	        var pos;
+	        return this.each(function () {
+	            $this = $(this);
+	            // position if necessary
+	            pos = $this.css('position');
+	            if (!pos || pos === 'static') {
+	                $this.css('position', 'relative');
+	            }
+	            // shake it
+	            for (var x = 1; x <= settings.shakes; x++) {
+	                $this.animate({ left: settings.distance * -1 }, (settings.duration / settings.shakes) / 4)
+	                    .animate({ left: settings.distance }, (settings.duration / settings.shakes) / 2)
+	                    .animate({ left: 0 }, (settings.duration / settings.shakes) / 4);
+	            }
+	        });
+	    };
+		$('div.submit').click(function() {
+			var flag = false;
+			if($('textarea').val().trim() == "") {
+				$('textarea').shake();
+				$('textarea').focus();
+				flag = true;
+			}
+			if($('input.email').val().trim() == "") {
+				$('input.email').shake();
+				$('input.email').focus();
+				flag = true;
+			}
+			if($('input.name').val().trim() == "") {
+				$('input.name').shake();
+				$('input.name').focus();
+				flag = true;
+			}
+			if(flag) return false;
+
+			var fd = new FormData($('form')[0]);
+			$('form').css('opacity', '0.5');
+			$.ajax({
+		        url: '/request/',
+		        type: 'POST',
+		        data: fd,
+		        async: true,
+		        success: function (data) {
+		        	$('div.header, div.label, input, div.submit, textarea, div.subheader, div.inputwrapper').remove();
+					$('div.finished').css('display', 'block');
+		        },
+		        error: function() {
+					$('form').css('opacity', '1');
+		        },
+		        cache: false,
+		        contentType: false,
+		        processData: false
+		    });
+		});
+	});
+	</script>
+	<style>
+		html, body { margin: 0; padding: 0; background-color: #270000; color: white; }
+		div.header { width: 80vw; padding: 10vw 10vw 3vw; font-size: 5vw; text-align: center; margin-bottom: 5vw; }
+		div.subheader { width: 80vw; padding: 0 10vw 5vw; font-size: 3vw; text-align: center; }
+		div.label { margin-top: 5vw; margin-bottom: 2vw; font-size: 4vw; width: 80vw; padding: 0 10vw; }
+		div.label span { font-size: 3vw; }
+		div.label.s2 { font-size: 3.5vw; margin: 10vw 0; }
+		input { width: 76vw; margin: 0 10vw; font-size: 3vw; line-height: 5vw; height: 5vw; padding: 2vw; border-radius: 1vw; }
+		textarea { resize: none; width: 76vw; margin: 0 10vw; font-size: 3vw; line-height: 5vw; height: 15vw; padding: 2vw; border-radius: 1vw; }
+
+		div.submit { width: 76vw; margin: 0 10vw; font-size: 3vw; line-height: 5vw; height: 5vw; padding: 2vw; border-radius: 1vw; text-align: center; background-color: white; color: #270000; margin-top: 10vw; margin-bottom: 10vw; }
+		div.finished { display: none; font-size: 7vw; width: 100vw; text-align: center; height: 10vh; line-height: 10vh; margin-top: 45vh; }
+		div.inputwrapper { width: 80vw; height: 12vw; margin: 0 10vw; border-radius: 1vw; border: 1px solid white; background: url(/static/img/icon_image_blue2.png) 50% 50% no-repeat white; background-size: 10%; }
+		div.inputwrapper input { margin: 0; padding: 0; width: 100%; height: 100%; opacity: 0.01;}
+		div.inputwrapper.selected { background: url(/static/img/icon_image2.png) 50% 50% no-repeat transparent; background-size: 10%; }
+	</style>
+</head>
+<body>
+	<div class="header">작품 의뢰하기</div>
+	<form>
+		<div class="subheader">* 현재는 건담만 가능합니다</div>
+		<div class="label">이름</div>
+		<div><input type="text" class="name" name="name" /></div>
+		<div class="label">이메일</div>
+		<div><input type="text" class="email" name="email" /></div>
+		<div class="label">요구사항</div>
+		<div><textarea class="requirement" name="requirement"></textarea></div>
+		<div class="label">예시 업로드&nbsp;&nbsp;<span>* 원하시는 작례나 애니 장면 등을 첨부해주세요</span></div>
+		<div class="inputwrapper"><input type="file" class="file" name="file" /></div>
+		<div class="label s2" style="text-align: center;">아래의 '보내기' 버튼을 누르는 것은 <br />이용약관과 개인정보 처리방침에 동의함을 의미합니다.</div>
+		<div class="submit">보내기</div>
+	</form>
+	<div class="finished">신청해주셔서 감사합니다 :)</div>
+</body>
+</html>
