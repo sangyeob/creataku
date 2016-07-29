@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	$('div.btn1').click(function() {
-		$('.realbody').animate({scrollTop: parseInt($('.realbody').prop('scrollHeight') * 0.6232)}, 500);
+		window.open('/mobile/register_collector_form/');
 	});
 	$('div.btn2').click(function() {
 		window.open('/mobile/request_form/');
