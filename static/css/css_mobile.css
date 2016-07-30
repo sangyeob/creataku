@@ -1,8 +1,8 @@
 html, body { margin: 0; padding: 0; }
 img { width: 100%; }
 body { position: relative; }
-div.btn1 { position: absolute; left: 67.3415%; top: 6.128%; width: 27.859%; height: 1.496%; background-color: rgba(255, 255, 255, 0.01); }
-div.btn2 { position: absolute; left: 67.3415%; top: 7.992%; width: 27.859%; height: 1.496%; background-color: rgba(255, 255, 255, 0.01); }
-div.btn3 { position: absolute; left: 57.7427%; top: 67.896%; width: 27.859%; height: 1.496%; background-color: rgba(255, 255, 255, 0.01); }
-div.btn4 { position: absolute; left: 57.7427%; top: 74.304%; width: 27.859%; height: 1.496%; background-color: rgba(255, 255, 255, 0.01); }
-div.btn5 { position: absolute; left: 35.958%; top: 86.712%; width: 27.859%; height: 1.496%; background-color: rgba(255, 255, 255, 0.01); }
+div.btn1 { position: absolute; left: 28.8713%; top: 7.728%; width: 42.4071%; height: 1.984%; background-color: rgba(255, 255, 255, 0.01); }
+div.btn2 { position: absolute; left: 28.8713%; top: 10.552%; width: 42.4071%; height: 1.984%; background-color: rgba(255, 255, 255, 0.01); }
+div.btn3 { position: absolute; left: 8.69891%; top: 70.144%; width: 36.257%; height: 1.936%; background-color: rgba(255, 255, 255, 0.01); }
+div.btn4 { position: absolute; left: 55.7180%; top: 70.144%; width: 36.257%; height: 1.936%; background-color: rgba(255, 255, 255, 0.01); }
+div.btn5 { position: absolute; left: 31.6835%; top: 86.328%; width: 36.7454%; height: 2.0%; background-color: rgba(255, 255, 255, 0.01); }
