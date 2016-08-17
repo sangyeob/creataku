@@ -12,7 +12,7 @@ div.sectionWrapper { width: 100vw; height: 100vh; position: absolute; top: 0; le
 section.page { position: relative; }
 
 section.page1 { background-color: #000000; }
-section.page2 { background: url(/static/img/mainbg/introbg2.png) 50% 100% no-repeat #0067ff; background-size: auto 80%; transition: background-position .5s; transition-delay: .5s; }
+section.page2 { background: url(/static/img/mainbg/introbg2_1.png) 50% 100% no-repeat #0067ff; background-size: auto 80%; transition: background-position .5s; transition-delay: .5s; }
 section.page3 { background-color: #ffb400; }
 section.page4 { background-color: #dc291c; }
 section.page5 { background-color: #000000; }
