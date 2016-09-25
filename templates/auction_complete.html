@@ -1,0 +1,104 @@
+{% extends "template.html" %}
+{% block auction_ing_head %}
+<style>
+	div.banner { width: 100%; height: 110px; background-color: #3e3e3e; padding: 18px 0; }
+	div.banner p { display: inline-block; vertical-align: middle; color: #f0f0f0; font-size: 40px; font-weight: bold; text-align: left; margin: 0 5px; line-height: 65px; }
+	div.main section { display: inline-block; width: 1062px; margin-top: 30px; }
+	div.main section article { width: 440px; height: 440px; margin: 10px; display: inline-block; }
+	div.main section article.no1 { background: url(/static/img/auctionitem/1.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
+	div.main section div.info { width: 536px; display: inline-block; margin: 10px 10px 10px 50px; vertical-align: top; text-align: left; }
+	div.main section div.info div.title { font-size: 20px; font-weight: bold; border-bottom: 2px solid #c4c4c4; padding: 0 0 10px; }
+	div.main section div.info div.detail { font-size: 16px; width: 100%; border-bottom: 1px solid #c4c4c4; padding: 10px 0; }
+	div.main section div.info div.detail div.subtitle { width: 150px; height: 24px; display: inline-block; line-height: 24px; }
+	div.main section div.info div.detail div.contents { width: 380px; height: 24px; display: inline-block; line-height: 24px; }
+	div.main section div.info div.detail div.contents span { font-size: 18px; font-weight: bold; color: #dc2b1c; }
+	div.main section div.info div.buttons { width: 100%; padding: 30px 0 0 0; }
+	div.main section div.info div.buttons button { width: 200px; height: 60px; border-radius: 2px; color: white; background-color: #bbb; line-height: 60px; border: none; font-size: 16px; outline-style: none; margin-right: 20px; }
+	div.main section.contents { border-top: 1px solid #c4c4c4; border-bottom: 1px solid #c4c4c4; padding: 30px 0; text-align: left; margin: 10px; font-size: 16px; line-height: 22px; }
+	div.main section.bidding { text-align: left; margin: 10px; }
+	div.main section.bidding h1 { font-size: 20px; font-weight: bold; padding: 0 0 20px 0; margin: 0; }
+	div.main section.bidding div.table div.row { height: 30px; line-height: 30px; }
+	div.main section.bidding div.table div.row.title { border-bottom: 1px dashed #c4c4c4; }
+	div.main section.bidding div.table div.row div.id { width: 200px; display: inline-block; }
+	div.main section.bidding div.table div.row div.date { width: 400px; display: inline-block; }
+	div.main section.bidding div.table div.row div.price { width: 300px; display: inline-block; }
+
+</style>
+{% endblock %}
+{% block auction_ing %}
+<div class="banner">
+	<p>경매가 마감되었습니다.</p>
+</div>
+<div class="main">
+	<section>
+		<article class="no1"></article>
+		<div class="info">
+			<div class="title">여기가바로제목입니다여기가바</div>
+			<div class="detail">
+				<div class="subtitle">시작가</div>
+				<div class="contents">1,000원</div>
+				<div class="subtitle">낙찰가</div>
+				<div class="contents"><span>10,400원</span></div>
+				<div class="subtitle">즉시구매가</div>
+				<div class="contents">10,400원</div>
+			</div>
+			<div class="detail">
+				<div class="subtitle">입찰수</div>
+				<div class="contents">13회</div>
+				<div class="subtitle">시작시간</div>
+				<div class="contents">2016-09-21 15:28:24</div>
+				<div class="subtitle">종료시간</div>
+				<div class="contents">2016-09-23 00:00:00</div>
+			</div>
+			<div class="detail">
+				<div class="subtitle">상품상태</div>
+				<div class="contents">새상품</div>
+				<div class="subtitle">배송방법</div>
+				<div class="contents">택배</div>
+				<div class="subtitle">배송비</div>
+				<div class="contents">2,500원</div>
+			</div>
+			<div class="buttons">
+				<button>입찰하기</button>
+				<button>구매하기</button>
+			</div>
+		</div>
+	</section>
+	<section class="contents">
+		여기가 본문입니다람쥐<br />
+		여기가 본문입니다람쥐<br />
+		여기가 본문입니다람쥐<br />
+		여기가 본문입니다람쥐<br />
+	</section>
+	<section class="bidding">
+		<h1>입찰내역</h1>
+		<div class="table">
+			<div class="row title">
+				<div class="id">입찰자ID</div>
+				<div class="date">입찰일자</div>
+				<div class="price">입찰가격</div>
+			</div>
+			<div class="row">
+				<div class="id">asdl***</div>
+				<div class="date">2016-09-22 10:28:24</div>
+				<div class="price">8,400원</div>
+			</div>
+			<div class="row">
+				<div class="id">ggrr***</div>
+				<div class="date">2016-09-22 09:28:24</div>
+				<div class="price">5,400원</div>
+			</div>
+			<div class="row">
+				<div class="id">hhhh***</div>
+				<div class="date">2016-09-21 22:28:24</div>
+				<div class="price">4,400원</div>
+			</div>
+			<div class="row">
+				<div class="id">uluo***</div>
+				<div class="date">2016-09-21 18:28:24</div>
+				<div class="price">3,400원</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}

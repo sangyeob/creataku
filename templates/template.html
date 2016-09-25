@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CREATAKU :: 키덜트를 위한 경매 공간</title>
+	<link rel='icon' href='/static/img/favicon.ico' type='image/x-icon'/>
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous">
+	</script>
+	<script>
+	$(document).ready(function() {
+		$('div.blackbg').click(function() {
+			$(this).css('display', 'none');
+		});
+		$('div.login').click(function(e) {
+			e.stopPropagation();
+		});
+		$('nav div.menu div.login').click(function() {
+			$('div.blackbg').css('display', 'table');
+		});
+	});
+	</script>
+	<style>
+		html, body { margin: 0; padding: 0; text-align: center; }
+		* { box-sizing: border-box; }
+		body { background-color: #f5f5f5; }
+		nav { width: 100%; height: 60px; position: fixed; z-index: 10; background-color: white; border-bottom: 1px solid #e0e0e0; }
+		nav div.logo { width: 191px; height:60px; position: absolute; left: 0; top: 0; cursor: pointer; padding: 17px 0; border-right: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0; }
+		nav div.logo:hover { background-color: #f5f5f5; }
+		nav div.logo img { height: 26px; }
+		nav div.menu { position: absolute; right: 0; top: 0; }
+		nav div.menu div { height: 60px; display: inline-block; line-height: 60px; border-left: 1px solid #e0e0e0; font-size: 14px; cursor: pointer; color: #484848; padding: 0 20px; border-bottom: 1px solid #e0e0e0; }
+		nav div.menu div:hover { background-color: #f5f5f5; }
+		div.blackbg { display: none; table-layout: fixed; width: 100%; height: 100%; position: fixed; left: 0; top: 0; background-color: rgba(0, 0, 0, .6); z-index: 100; }
+		div.blackbg div.vam-wrapper { display: table-cell; vertical-align: middle; }
+		div.blackbg div.login { width: 450px; padding: 30px; background-color: white; display: inline-block; border-radius: 2px; }
+		div.blackbg div.login input { width: 100%; height: 40px; display: block; border-radius: 2px; line-height: 40px; font-size: 14px; padding: 10px; margin-bottom: 5px; border: 1px solid #c4c4c4; }
+		div.blackbg div.login p { text-align: left; font-size: 14px; }
+		div.blackbg div.login p span { color: red; cursor: pointer; }
+		div.blackbg div.login p span:hover { text-decoration: underline; }
+		div.blackbg div.login button { width: 100%; height: 60px; border-radius: 2px; color: white; background-color: #dc2b1c; line-height: 60px; border: none; font-size: 16px; outline-style: none; cursor: pointer; }
+		div.blackbg div.login button:hover { background-color: red; }
+		div.blackbg div.login div.signup { margin-top: 20px; padding-top: 20px; border-top: 1px dashed #c4c4c4; }
+		div.dummy { height: 60px; }
+		footer { background-color: #3e3e3e; padding: 20px 0 30px; margin-top: 10px; vertical-align: top; }
+		footer p { color: white; font-size: 16px; font-weight: bold; }
+		footer div { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #767676; display: inline-block; margin: 10px 5px; cursor: pointer; }
+		footer span { display: block; color: #767676; font-size: 14px; }
+	</style>
+	{% block head %}
+	{% endblock %}
+	{% block auction_head %}
+	{% endblock %}
+	{% block auction_ing_head %}
+	{% endblock %}
+	{% block method_head %}
+	{% endblock %}
+</head>
+<body>
+	<nav>
+		<div class="logo"><img src="/static/img/logo4.png" /></div>
+		<div class="menu">
+			<div>경매</div><div>이용방법</div><div class="login">로그인</div></div>
+	</nav>
+	<div class="blackbg">
+		<div class="vam-wrapper">
+			<div class="login">
+				<input type="text" name="email" placeholder="e-mail">
+				<input type="password" name="password" placeholder="비밀번호">
+				<button>로그인</button>
+				<div class="signup">
+					<p>크리에이타쿠 계정이 없나요?</p>
+					<input type="text" name="new-email" placeholder="e-mail">
+					<input type="password" name="new-password" placeholder="비밀번호">
+					<input type="password" name="new-password-confirm" placeholder="비밀번호 확인">
+					<p>회원가입을 하면 크리에이타쿠의 <span>서비스 약관</span>, <span>개인정보 보호정책</span>에 동의하는 것으로 간주됩니다.</p>
+					<button>회원가입</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="dummy"></div>
+	{% block contents %}
+	{% endblock %}
+	{% block auction %}
+	{% endblock %}
+	{% block auction_ing %}
+	{% endblock %}
+	{% block signup %}
+	{% endblock %}
+	{% block method %}
+	{% endblock %}
+	<footer>
+		<p>크리에이타쿠 소셜미디어 채널</p>
+		<div></div>
+		<div></div>
+		<span>&copy; CREATAKU, Inc.</span>
+	</footer>
+</body>
+</html>
