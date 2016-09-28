@@ -1,0 +1,58 @@
+{% extends "template.html" %}
+{% block auction_head %}
+<style>
+	div.header { width: 100%; height: 60px; background-color: white; border-bottom: 1px solid #e0e0e0; }
+	div.header div.wrapper { width: 1062px; display: inline-block; text-align: left; }
+	div.header div.wrapper div { height: 60px; padding: 0 10px; font-size: 18px; display: inline-block; cursor: pointer; line-height: 54px; color: #484848; border-left: 1px solid transparent; border-right: 1px solid transparent; }
+	div.header div.wrapper div:hover { background-color: #f5f5f5; border-bottom: 1px solid #e0e0e0; }
+	div.header div.wrapper div.selected { background-color: #f5f5f5; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; border-bottom: none; }
+	div.main section { display: inline-block; width: 1062px; margin-top: 30px; }
+	div.main div.wrapper { margin: 10px; display: inline-block; cursor: pointer; }
+	div.main div.wrapper div.info { text-align: left; background-color: white; padding: 10px; }
+	div.main div.wrapper div.info h1 { font-size: 16px; margin: 0; margin-bottom: 10px; }
+	div.main div.wrapper div.info p { font-size: 14px; margin: 5px 0; }
+	div.main div.wrapper div.info p span { color: #dc2b1c; font-weight: bold; font-size: 16px; }
+	div.main article { width: 330px; height: 330px; }
+</style>
+<script>
+$(document).ready(function() {
+	$('div.header div.auction_ing').click(function() {
+		location.href="{{ url_for('auction_list', listtype = 'ing') }}";
+	});
+	$('div.header div.auction_complete').click(function() {
+		location.href="{{ url_for('auction_list', listtype = 'complete') }}";
+	});
+	$('div.main section div.wrapper').click(function() {
+		location.href = $(this).attr('data-link');
+	});
+});
+</script>
+{% endblock %}
+{% block auction %}
+<div class="header">
+	<div class="wrapper">
+		<div class="auction_ing {% if context.listtype == 'ing' %}selected{% endif %}">진행 중인 경매</div><div class="auction_complete {% if context.listtype != 'ing' %}selected{% endif %}">완료된 경매</div>
+	</div>
+</div>
+<div class="main">
+	<section>
+		{% for auc in context.auctions %}
+		<div class="wrapper" data-link="{{ url_for('auction_view', id = auc['id']) }}">
+			<article style="background: url({{ auc['photo'] }}) 0 0 no-repeat transparent; background-size: 100% 100%;"></article>
+			<div class="info">
+				<h1>{{ auc['name'] }}</h1>
+				{% if context.listtype == 'ing' %}
+				<p>현재가 {{ auc['current_price'] }}원</p>
+				<p>즉구가 <span>{{ auc['buynow_price'] }}원</span></p>
+				{% else %}
+				<p>낙찰가 <span>{{ auc['current_price'] }}원</span></p>
+				<p>즉구가 {{ auc['buynow_price'] }}원</p>
+				{% endif %}
+				<p>입찰자 {{ auc['bid_count'] }}</p>
+				<p>마감 {{ auc['end_at'] }}</p>
+			</div>
+		</div>
+		{% endfor %}
+	</section>
+</div>
+{% endblock %}

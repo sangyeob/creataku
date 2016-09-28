@@ -1,0 +1,241 @@
+{% extends "template.html" %}
+{% block auction_ing_head %}
+<style>
+	div.banner { width: 100%; height: 110px; background-color: #3e3e3e; padding: 18px 0; }
+	div.banner p { display: inline-block; vertical-align: middle; color: #f0f0f0; font-size: 16px; font-weight: bold; text-align: left; margin: 0 5px; }
+	div.banner p.large { display: inline-block; vertical-align: middle; color: #f0f0f0; font-size: 40px; font-weight: bold; text-align: left; margin: 0 5px; line-height: 65px; }
+	div.banner div.time { width: 52px; height: 74px; border-radius: 5px; background-color: #f0f0f0; display: inline-block; font-size: 64px; font-weight: bold; line-height: 64px; vertical-align: middle; }
+	div.banner p.colon { font-size: 56px; margin-top: -14px; }
+	div.main section { display: inline-block; width: 1062px; margin-top: 30px; }
+	div.main section.contents img { width: 100%; }
+	div.main section article { width: 440px; height: 440px; margin: 10px; display: inline-block; }
+	div.main section div.info { width: 536px; display: inline-block; margin: 10px 10px 10px 50px; vertical-align: top; text-align: left; }
+	div.main section div.info div.title { font-size: 20px; font-weight: bold; border-bottom: 2px solid #c4c4c4; padding: 0 0 10px; }
+	div.main section div.info div.detail { font-size: 16px; width: 100%; border-bottom: 1px solid #c4c4c4; padding: 10px 0; }
+	div.main section div.info div.detail div.subtitle { width: 150px; height: 24px; display: inline-block; line-height: 24px; }
+	div.main section div.info div.detail div.contents { width: 380px; height: 24px; display: inline-block; line-height: 24px; }
+	div.main section div.info div.detail div.contents span { font-size: 18px; font-weight: bold; color: #dc2b1c; }
+	div.main section div.info div.buttons { width: 100%; padding: 30px 0 0 0; }
+	div.main section div.info div.buttons button { width: 200px; height: 60px; border-radius: 2px; color: white; background-color: #dc2b1c; line-height: 60px; border: none; font-size: 16px; outline-style: none; cursor: pointer; margin-right: 20px; }
+	div.main section div.info div.buttons button:hover { background-color: red; }
+	div.main section div.info div button.closed { width: 200px; height: 60px; border-radius: 2px; color: white; background-color: #bbb; line-height: 60px; border: none; font-size: 16px; outline-style: none; margin-right: 20px; cursor: default; }
+	div.main section div.info div button.closed:hover { background-color: #bbb; }
+	div.main section.contents { border-top: 1px solid #c4c4c4; border-bottom: 1px solid #c4c4c4; padding: 30px 0; text-align: left; margin: 10px; font-size: 16px; line-height: 22px; }
+	div.main section.bidding { text-align: left; margin: 10px; }
+	div.main section.bidding h1 { font-size: 20px; font-weight: bold; padding: 0 0 20px 0; margin: 0; }
+	div.main section.bidding div.table div.row { height: 30px; line-height: 30px; }
+	div.main section.bidding div.table div.row.title { border-bottom: 1px dashed #c4c4c4; }
+	div.main section.bidding div.table div.row div.id { width: 200px; display: inline-block; }
+	div.main section.bidding div.table div.row div.date { width: 400px; display: inline-block; }
+	div.main section.bidding div.table div.row div.price { width: 300px; display: inline-block; }
+
+	div.bid { margin-top: 20px; display: none; }
+	div.bid div.wrapper { vertical-align: middle; height: 60px;}
+	div.bid input[name=price] { width: 280px; height: 60px; font-size: 20px; line-height: 40px; padding: 10px; text-align: right; margin: 0;  vertical-align: middle; border: none; }
+	div.bid div.control { display: inline-block; width: 30px; height: 60px; vertical-align: middle; }
+	div.bid div.control div { width: 30px; height: 30px; line-height: 30px; cursor: pointer; margin: 0; padding: 0; background-color: #dc2b1c; color: white; font-weight: bold; font-size: 30px; text-align: center;}
+	div.bid div.control div:hover { background-color: red; }
+	div.bid div.control div.disabled { background-color: #ba0900; cursor: default; }
+	div.bid div.control div.disabled:hover { background-color: #ba0900; }
+	div.bid div.submit { width: 80px; display: inline-block; height: 60px; line-height: 60px; text-align: center; vertical-align: middle; background-color: #dc2b1c; color: white; cursor: pointer; margin-left: 30px;}
+	div.bid div.submit:hover { background-color: red; }
+</style>
+<script>
+$(document).ready(function() {
+	$('div.info div.buttons button.bid').click(function() {
+		$('div.info div.buttons').css('display', 'none');
+		$('div.bid').css('display', 'block');
+	});
+	$('div.info div.buttons button.buy').click(function() {
+		$('div.info div.buttons').css('display', 'none');
+		$('div.bid').css('display', 'block');
+		$('div.bid input[name=price]').val({{ context.auction.buynow_price }} + '원');
+		$('div.bid input[name=price]').attr('data-val', {{ context.auction.buynow_price }});
+		$('div.bid div.control div').addClass('disabled');
+		$('div.bid div.submit').text('구매!');
+	});
+	$('div.bid div.control div').click(function() {
+		if($(this).hasClass('disabled')) return false;
+		var val = parseInt($('div.bid input[name=price]').attr('data-val'));
+		var step = parseInt($('div.bid input[name=price]').attr('data-bid-step'));
+		var min = parseInt($('div.bid input[name=price]').attr('data-min-value')); 
+		if($(this).hasClass('up')) val += step;
+		else val -= step;
+		$('div.bid input[name=price]').attr('data-val', val);
+		$('div.bid input[name=price]').val(val + '원');
+		if(val == min) $('div.bid div.control div.down').addClass('disabled');
+		else $('div.bid div.control div.down').removeClass('disabled');
+	});
+	$('div.bid div.submit').click(function() {
+		$('div.bid input[name=price]').val($('div.bid input[name=price]').attr('data-val'));
+		$('form.bid').submit();
+	});
+
+{% if context.auction['status'] == 'open' %}
+	$d1 = $('div.banner div.d1');
+	$d2 = $('div.banner div.d2');
+	$h1 = $('div.banner div.h1');
+	$h2 = $('div.banner div.h2');
+	$m1 = $('div.banner div.m1');
+	$m2 = $('div.banner div.m2');
+	$s1 = $('div.banner div.s1');
+	$s2 = $('div.banner div.s2');
+	$bidend = new Date("{{ context.auction['end_at'] }}");
+	reloadFlag = false;
+	function updateTime(ms) {
+		var s = parseInt(ms / 1000);
+		var d = parseInt(s / 86400);
+		s -= d * 86400;
+		var h = parseInt(s / 3600);
+		s -= h * 3600;
+		var m = parseInt(s / 60);
+		s -= m * 60;
+
+		if(d < 10) {
+			$d1.text('0');
+			$d2.text(d.toString());
+		} else {
+			$d1.text(parseInt(d / 10).toString());
+			$d2.text(parseInt(d % 10).toString());
+		}
+
+		if(h < 10) {
+			$h1.text('0');
+			$h2.text(h.toString());
+		} else {
+			$h1.text(parseInt(h / 10).toString());
+			$h2.text(parseInt(h % 10).toString());
+		}
+
+		if(m < 10) {
+			$m1.text('0');
+			$m2.text(m.toString());
+		} else {
+			$m1.text(parseInt(m / 10).toString());
+			$m2.text(parseInt(m % 10).toString());
+		}
+
+		if(s < 10) {
+			$s1.text('0');
+			$s2.text(s.toString());
+		} else {
+			$s1.text(parseInt(s / 10).toString());
+			$s2.text(parseInt(s % 10).toString());
+		}
+
+	}
+	updateTime($bidend - new Date());
+	setInterval(function() {
+		$now = new Date();
+		if($bidend - $now < 0) {
+			location.reload();
+		} else {
+			updateTime($bidend - $now);
+		}
+	}, 300);
+{% endif %}
+});
+</script>
+{% endblock %}
+{% block auction_ing %}
+<div class="banner">
+{% if context.auction['status'] == 'open' %}
+	<p>경매<br />마감까지</p>
+	<div class="time d1">0</div>
+	<div class="time d2">0</div>
+	<p>일</p>
+	<div class="time h1">0</div>
+	<div class="time h2">0</div>
+	<p class="colon">:</p>
+	<div class="time m1">0</div>
+	<div class="time m2">0</div>
+	<p class="colon">:</p>
+	<div class="time s1">0</div>
+	<div class="time s2">0</div>
+{% else %}
+	<p class="large">마감되었습니다</p>
+{% endif %}
+</div>
+<div class="main">
+	<section>
+		<article style="background: url({{ context.auction['photo'] }}) 0 0 no-repeat transparent; background-size: 100% 100%;"></article>
+		<div class="info">
+			<div class="title">{{ context.auction['name'] }}</div>
+			<div class="detail">
+				<div class="subtitle">시작가</div>
+				<div class="contents">{{ context.auction['start_price_grp'] }}원</div>
+				{% if context.auction['status'] == 'open' %}
+				<div class="subtitle">현재가</div>
+				<div class="contents">{{ context.auction['current_price_grp'] }}원</div>
+				<div class="subtitle">즉시구매가</div>
+				<div class="contents"><span>{{ context.auction['buynow_price_grp'] }}원</span></div>
+				{% else %}
+				<div class="subtitle">낙찰가</div>
+				<div class="contents"><span>{{ context.auction['current_price_grp'] }}원</span></div>
+				<div class="subtitle">즉시구매가</div>
+				<div class="contents">{{ context.auction['buynow_price_grp'] }}원</div>
+				{% endif %}
+			</div>
+			<div class="detail">
+				<div class="subtitle">입찰수</div>
+				<div class="contents">{{ context.auction['bid_count'] }}회</div>
+				<div class="subtitle">시작시간</div>
+				<div class="contents">{{ context.auction['started_at'] }}</div>
+				<div class="subtitle">종료시간</div>
+				<div class="contents">{{ context.auction['end_at'] }}</div>
+			</div>
+			<div class="detail">
+				<div class="subtitle">상품상태</div>
+				<div class="contents">새상품</div>
+				<div class="subtitle">배송방법</div>
+				<div class="contents">택배</div>
+				<div class="subtitle">배송비</div>
+				<div class="contents">2,500원</div>
+			</div>
+			<div class="buttons">
+				<button class="bid {{ context.auction['status'] }} {% if context.bids %}{% if context.bids[0].user_id == session.user %} closed {% endif %}{% endif %}">입찰하기</button>
+				<button class="buy {{ context.auction['status'] }}">구매하기</button>
+			</div>
+			{% if context.auction['status'] == 'open' %}
+			<div class="bid">
+				<form class="bid" action="{{ url_for('auction_bid') }}" method="POST">
+					<input type="hidden" name="location" value="{{ context.next }}" />
+					<input type="hidden" name="user_id" value="{{ session.user }}" />
+					<input type="hidden" name="auc_id" value="{{ context.auction.id }}" />
+					<div class="wrapper">
+						<input type="text" name="price" data-min-value="{{ context.min_bid }}" data-bid-step="{{ context.bid_step }}" data-val="{{ context.min_bid }}" value="{{ context.min_bid }}원" readonly /><div class="control">
+							<div class="no-select up">+</div>
+							<div class="no-select down disabled">-</div>
+						</div><div class="submit">입찰!</div>
+					</div>
+				</form>
+			</div>
+			{% endif %}
+		</div>
+	</section>
+	<section class="contents">
+		{{ context.auction.body | safe }}
+	</section>
+	<section class="bidding">
+		<h1>입찰내역</h1>
+		<div class="table">
+		{% if context.bids %}
+			<div class="row title">
+				<div class="id">입찰자ID</div>
+				<div class="date">입찰일자</div>
+				<div class="price">입찰가격</div>
+			</div>
+			{% for bid in context.bids %}
+			<div class="row">
+				<div class="id">{{ bid.user_id }}</div>
+				<div class="date">{{ bid.bid_at }}</div>
+				<div class="price">{{ bid.bid_price }}원</div>
+			</div>
+			{% endfor %}
+		{% else %}
+		입찰 내역이 없습니다.
+		{% endif %}
+		</div>
+	</section>
+</div>
+{% endblock %}

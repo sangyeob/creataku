@@ -8,8 +8,20 @@
 	</script>
 	<script>
 	$(document).ready(function() {
+		$('nav div.logo').click(function() {
+			location.href="{{ url_for('index_auction') }}";
+		});
+		$('nav div.auction').click(function() {
+			location.href="{{ url_for('auction_list', listtype = 'ing') }}";
+		});
+		$('nav div.auction_guide').click(function() {
+			location.href="{{ url_for('auction_guide') }}";
+		});
 		$('div.blackbg').click(function() {
 			$(this).css('display', 'none');
+			$(this).find('input[name=email]').val('');
+			$(this).find('input[name=password]').val('');
+			$(this).find('input[name=password-confirm]').val('');
 		});
 		$('div.login').click(function(e) {
 			e.stopPropagation();
@@ -17,10 +29,93 @@
 		$('nav div.menu div.login').click(function() {
 			$('div.blackbg').css('display', 'table');
 		});
+		$('nav div.logout').click(function() {
+			location.href="{{ url_for('auction_account_logout') }}";
+		});
+
+		$('div.blackbg form.login').submit(function(e) {
+			if($(this).find('input[name=validated]').val() == "false") {
+				e.preventDefault();
+				$.ajax({
+					url: "{{ url_for('auction_account_check_validity') }}",
+					type: "POST",
+					contentType: 'application/json;chatset=UTF-8',
+					data: JSON.stringify({
+						email: $('div.blackbg form.login input[name=email]').val(),
+						password: $('div.blackbg form.login input[name=password]').val()
+					}),
+					success: function(ret) {
+						if(ret == "NotRegistered")
+							alert('등록되지 않은 사용자입니다.');
+						else if(ret == "WrongPassword")
+							alert('잘못된 비밀번호입니다.');
+						else if(ret == "OK") {
+							$('div.blackbg form.login input[name=validated]').val('true');
+							$('div.blackbg form.login').submit();
+						}
+						else
+							alert('알 수 없는 에러가 발생하였습니다.');
+					},
+					error: function() {
+						alert('서버와 통신할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+					}
+				});
+			}
+		});
+		$('div.blackbg form.login button').click(function(e) {
+			e.preventDefault();
+			$('div.blackbg form.login').submit();
+		});
+
+		$('div.blackbg form.signup').submit(function(e) {
+			if($(this).find('input[name=validated]').val() == "false") {
+				e.preventDefault();
+				$.ajax({
+					url: "{{ url_for('auction_account_check_availability') }}",
+					type: "POST",
+					contentType: 'application/json;chatset=UTF-8',
+					data: JSON.stringify({
+						email: $('div.blackbg form.signup input[name=email]').val(),
+						password: $('div.blackbg form.signup input[name=password]').val(),
+						password_confirm: $('div.blackbg form.signup input[name=password-confirm]').val()
+					}),
+					success: function(ret) {
+						if(ret == "PasswordConfirmFailed")
+							alert('입력한 두 비밀번호가 다릅니다.');
+						else if(ret == "AccountExist")
+							alert('이미 존재하는 이메일 계정입니다.');
+						else if(ret == "OK") {
+							$('div.blackbg form.signup input[name=validated]').val('true');
+							$('div.blackbg form.signup').submit();
+						}
+						else
+							alert('알 수 없는 에러가 발생하였습니다.');
+					},
+					error: function() {
+						alert('서버와 통신할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+					}
+				});
+			}
+		});
+		$('div.blackbg form.signup button').click(function(e) {
+			e.preventDefault();
+			$('div.blackbg form.signup').submit();
+		});
+		{% if context.flash %}
+			alert("{{ context.flash }}");
+		{% endif %}
 	});
 	</script>
 	<style>
-		html, body { margin: 0; padding: 0; text-align: center; }
+		.no-select {
+		    -webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		}
+		html, body { margin: 0; padding: 0; text-align: center; font-family: 'Calibri', 'AppleGothic', 'Noto Sans CJK KR', sans-serif; }
 		* { box-sizing: border-box; }
 		body { background-color: #f5f5f5; }
 		nav { width: 100%; height: 60px; position: fixed; z-index: 10; background-color: white; border-bottom: 1px solid #e0e0e0; }
@@ -59,21 +154,33 @@
 	<nav>
 		<div class="logo"><img src="/static/img/logo4.png" /></div>
 		<div class="menu">
-			<div>경매</div><div>이용방법</div><div class="login">로그인</div></div>
+			{% if context.isAuthenticated %}
+			<div class="auction">경매</div><div class="method">이용방법</div><div class="logout">로그아웃</div></div>
+			{% else %}
+			<div class="auction">경매</div><div class="method">이용방법</div><div class="login">로그인</div></div>
+			{% endif %}
 	</nav>
 	<div class="blackbg">
 		<div class="vam-wrapper">
 			<div class="login">
-				<input type="text" name="email" placeholder="e-mail">
-				<input type="password" name="password" placeholder="비밀번호">
-				<button>로그인</button>
+				<form class="login" method="POST" action="{{ url_for('auction_account_login') }}">
+					<input type="hidden" name="next" value="{{ next or context.next or '' }}" />
+					<input type="hidden" name="validated" value="false" />
+					<input type="text" name="email" placeholder="e-mail">
+					<input type="password" name="password" placeholder="비밀번호">
+					<button class="login">로그인</button>
+				</form>
 				<div class="signup">
-					<p>크리에이타쿠 계정이 없나요?</p>
-					<input type="text" name="new-email" placeholder="e-mail">
-					<input type="password" name="new-password" placeholder="비밀번호">
-					<input type="password" name="new-password-confirm" placeholder="비밀번호 확인">
-					<p>회원가입을 하면 크리에이타쿠의 <span>서비스 약관</span>, <span>개인정보 보호정책</span>에 동의하는 것으로 간주됩니다.</p>
-					<button>회원가입</button>
+					<form class="signup" method="POST" action="{{ url_for('auction_account_signup') }}">
+						<input type="hidden" name="next" value="{{ next or context.next or '' }}" />
+						<input type="hidden" name="validated" value="false" />
+						<p>크리에이타쿠 계정이 없나요?</p>
+						<input type="text" name="email" placeholder="e-mail">
+						<input type="password" name="password" placeholder="비밀번호">
+						<input type="password" name="password-confirm" placeholder="비밀번호 확인">
+						<p>회원가입을 하면 크리에이타쿠의 <span>서비스 약관</span>, <span>개인정보 보호정책</span>에 동의하는 것으로 간주됩니다.</p>
+						<button class="signup">회원가입</button>
+					</form>
 				</div>
 			</div>
 		</div>

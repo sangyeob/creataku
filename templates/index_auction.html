@@ -5,31 +5,33 @@
 	div.main section { display: inline-block; width: 1062px; margin-top: 30px; }
 	div.main section h1 { font-size: 32px; margin: 20px; }
 	div.main article { width: 330px; height: 330px; margin: 10px; display: inline-block; cursor: pointer; }
-	div.main article.no1 { background: url(/static/img/auctionitem/1.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
-	div.main article.no2 { background: url(/static/img/auctionitem/2.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
-	div.main article.no3 { background: url(/static/img/auctionitem/3.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
-	div.main article.no4 { background: url(/static/img/auctionitem/4.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
-	div.main article.no5 { background: url(/static/img/auctionitem/5.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
-	div.main article.no6 { background: url(/static/img/auctionitem/6.jpg) 0 0 no-repeat transparent; background-size: 100% 100%; }
 </style>
+<script>
+$(document).ready(function() {
+	$('div.main section article').click(function() {
+		location.href = $(this).attr('data-link');
+	});
+});
+</script>
 {% endblock %}
 {% block contents %}
 <div class="jumbotron"></div>
 <div class="main">
+	{% if context.auctions[0] %}
 	<section>
 		<h1>진행 중인 경매</h1>
-		<article class="no1"></article>
-		<article class="no2"></article>
-		<article class="no3"></article>
-		<article class="no4"></article>
-		<article class="no5"></article>
-		<article class="no6"></article>
+		{% for auc in context.auctions[0] %}
+			<article data-link="{{ url_for('auction_view', id = auc['id']) }}" style="background: url({{ auc['photo'] }}) 0 0 no-repeat transparent; background-size: 100% 100%;"></article>
+		{% endfor %}
 	</section>
+	{% endif %}
+	{% if context.auctions[1] %}
 	<section>
 		<h1>종료된 경매</h1>
-		<article class="no1"></article>
-		<article class="no2"></article>
-		<article class="no3"></article>
+		{% for auc in context.auctions[1] %}
+			<article data-link="{{ url_for('auction_view', id = auc['id']) }}" style="background: url({{ auc['photo'] }}) 0 0 no-repeat transparent; background-size: 100% 100%;"></article>
+		{% endfor %}
 	</section>
+	{% endif %}
 </div>
 {% endblock %}

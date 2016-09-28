@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<form method="POST" action="/auction/register/">
+		<div>name</div>
+		<input type="text" name="name" />
+		<div>started_at</div>
+		<input type="text" name="started_at" value="2016-09-15 00:00:00" />
+		<div>start_price</div>
+		<input type="text" name="start_price" value="50000" >
+		<div>current_price</div>
+		<input type="text" name="current_price" value="50000" />
+		<div>end_at</div>
+		<input type="text" name="end_at" value="2016-10-01 00:00:00" />
+		<div>bid_count</div>
+		<input type="text" name="bid_count" value="0" />
+		<div>buynow_price</div>
+		<input type="text" name="buynow_price" value="300000" />
+		<div>body</div>
+		<input type="text" name="body" value="<img src='/static/img/auction_img/creataku_action-image.png' />" />
+		<div>thumbnails</div>
+		<input type="text" name="thumbnails" value='[{"url":"/static/img/auction_img/creataku_auction-mainimage.png"}]' />
+		<input type="submit" />
+	</form>
+</body>
+</html>
