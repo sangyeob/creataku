@@ -1,0 +1,81 @@
+{% extends 'redesign/template.html' %}
+{% block contents %}
+<div class="container1200">
+	<div class="auction_count clearfix">
+		<div class="prev floatL">
+			<div class="caption">지난 회 낙찰품</div>
+			<div class="count">0</div><br />
+			<a class="link" href="#noProduct ">낙찰품 보러가기 &gt;</a>
+		</div>
+		<div class="current floatL">
+			<div class="caption">현재 경매품</div>
+			<div class="count">12</div><br />
+			<a class="link" href="/auction/">경매품 보러가기 &gt;</a>
+		</div>
+		<div class="next nbr floatL">
+			<div class="caption">다음 회 예정 경매품</div>
+			<div class="count">0</div><br />
+			<a class="link" href="#noProduct">예정 경매품 보러가기 &gt;</a>
+		</div>
+	</div>
+</div>
+<div class="container1200 btnRegisterNextAuction ta-center">다음 회 [02nd] 경매 신청하기</div>
+<div class="container1200 capRegisterNextAuction ta-center">| 다음 회 [02nd] 경매는 <b class="td-ul">2017년 1월 15일까지</b> 신청받습니다 |</div>
+<div class="container1200">
+	<div class="seperator ta-center">
+		<span class="name_big">Category</span>
+		<span class="name_small">경매품 카테고리</span>
+	</div>
+</div>
+<div class="container1200 categories ta-center">
+	<img src="/static/img/redesign_img/auction-category01.png" /><img src="/static/img/redesign_img/auction-category02.png" /><img src="/static/img/redesign_img/auction-category03.png" /><img src="/static/img/redesign_img/auction-category04.png" /><br />
+	<img src="/static/img/redesign_img/auction-category05.png" /><img src="/static/img/redesign_img/auction-category06.png" /><img src="/static/img/redesign_img/auction-category07.png" /><br />
+	<img src="/static/img/redesign_img/auction-category08.png" /><img src="/static/img/redesign_img/auction-category09.png" />
+</div>
+<div class="container1200">
+	<div class="seperator ta-center">
+		<span class="name_big">BIDDING NOW</span>
+		<span class="name_small">현재 경매품</span>
+	</div>
+</div>
+<script>
+$(document).ready(function() {
+	$('.bidding_now .arrow_right, .bidding_now .paginator .page_2').click(function() {
+		$('.bidding_now .arrow_left').removeClass("na");
+		$('.bidding_now .arrow_right').addClass("na");
+		$('.bidding_now .paginator span').removeClass('activated');
+		$('.bidding_now .paginator span.page_2').addClass('activated');
+		$('.bidding_now .list .page_1').addClass('disp-none');
+		$('.bidding_now .list .page_2').removeClass('disp-none');
+	});
+	$('.bidding_now .arrow_left, .bidding_now .paginator .page_1').click(function() {
+		$('.bidding_now .arrow_left').addClass("na");
+		$('.bidding_now .arrow_right').removeClass("na");
+		$('.bidding_now .paginator span').addClass('activated');
+		$('.bidding_now .paginator span.page_2').removeClass('activated');
+		$('.bidding_now .list .page_1').removeClass('disp-none');
+		$('.bidding_now .list .page_2').addClass('disp-none');
+	});
+});
+</script>
+<div class="container1200 bidding_now">
+	<div class="seeallwrapper"><a class="seeall" href="/auction/">전체보기 &gt;</a></div>
+	<div class="list">
+		<div class="no-select arrow_left na">&#9664;</div>
+		<div class="no-select arrow_right">&#9654;</div>
+		<div class="page page_1">
+			<a href="#bid_01"><img src="/static/img/redesign_img/auctionlist-item-01.png"/></a><a href="#bid_02"><img src="/static/img/redesign_img/auctionlist-item-02.png"/></a><a href="#bid_03"><img src="/static/img/redesign_img/auctionlist-item-03.png"/></a>
+			<a href="#bid_04"><img src="/static/img/redesign_img/auctionlist-item-04.png"/></a><a href="#bid_05"><img src="/static/img/redesign_img/auctionlist-item-05.png"/></a><a href="#bid_06"><img src="/static/img/redesign_img/auctionlist-item-06.png"/></a>
+			<a href="#bid_07"><img src="/static/img/redesign_img/auctionlist-item-07.png"/></a><a href="#bid_08"><img src="/static/img/redesign_img/auctionlist-item-08.png"/></a><a href="#bid_09"><img src="/static/img/redesign_img/auctionlist-item-09.png"/></a>
+		</div>
+		<div class="page page_2 disp-none">
+			<div class="placeholder" style="width: 960px; height: 320px;">&nbsp;</div>
+			<a href="#bid_10"><img src="/static/img/redesign_img/auctionlist-item-10.png"/></a><a href="#bid_11"><img src="/static/img/redesign_img/auctionlist-item-11.png"/></a><a href="#bid_12"><img src="/static/img/redesign_img/auctionlist-item-12.png"/></a>
+		</div>
+	</div>
+	<div class="paginator">
+		<span class="no-select page_1 activated">1</span>
+		<span class="no-select page_2">2</span>
+	</div>
+</div>
+{% endblock %}

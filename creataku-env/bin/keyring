@@ -1,9 +1,0 @@
-#!/Users/Sang/OneDrive/Developments/creataku/creataku-env/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'keyring==8.5.1','console_scripts','keyring'
-__requires__ = 'keyring==8.5.1'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('keyring==8.5.1', 'console_scripts', 'keyring')()
-)

@@ -1,0 +1,240 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+    display:block;
+}
+
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000;
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+textarea:focus, input:focus{
+    outline: 0;
+}
+
+/*--------------------------------------*/
+
+.clearfix:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
+.floatL { float: left !important; }
+.floatR { float: right !important; }
+
+.nbr { border-right: 0px none !important; }
+
+.nmr { margin-right: 0px !important; }
+
+.td-none { text-decoration: none !important; }
+.td-ul { text-decoration: underline !important; }
+
+.ta-left { text-align: left !important; }
+.ta-right { text-align: right !important; }
+.ta-center { text-align: center !important; }
+
+.disp-none { display: none !important; }
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*--------------------------------------*/
+/* template */ 
+
+div.popup_background { display: none; table-layout: fixed; width: 100%; height: 100%; position: fixed; left: 0; top: 0; background-color: rgba(0, 0, 0, .6); z-index: 100; }
+div.popup_background div.popup_wrapper { display: table-cell; vertical-align: middle; text-align: center; }
+div.popup_background div.popup_wrapper div.popup_contents { display: inline-block; }
+div.popup_background div.popup_wrapper div.popup_contents div.popup_header { width: 100%; border-bottom: 1px solid #bbbbbb; font-size: 30px; line-height: 30px; height: 30px; text-align: center; color: #320200; padding-bottom: 10px; margin-bottom: 20px; }
+
+div.pop_login div.login { width: 600px; padding: 50px; background-color: white; display: inline-block; border-radius: 2px; }
+div.pop_login div.login p { text-align: left; font-size: 14px; }
+div.pop_login div.login button { width: 100%; height: 60px; border-radius: 2px; color: #320200; background-color: #fdb416; line-height: 60px; border: none; font-size: 16px; outline-style: none; cursor: pointer; margin-top: 20px; }
+div.pop_login div.login div.signup { margin-top: 20px; padding-top: 20px; border-top: 1px dashed #c4c4c4; }
+
+/*--------------------------------------*/
+/* index */ 
+
+@import url(http://fonts.googleapis.com/css?family=Noto+Sans);
+body { font-family: 'Noto Sans', sans-serif; color: #320200; }
+a { text-decoration: none; color: #320200; }
+
+div.container1200 { width: 1200px; position: relative; left: 50%; margin-left: -600px; }
+header div.container1200 { height: 550px; text-align: center; }
+
+header nav { width: 1200px; position: absolute; top: 25px; left: 0; }
+header nav > a { display: block; margin: 0 15px; cursor: pointer; text-decoration: none; }
+header nav > a.logo { background: url(/static/img/redesign_img/logo_yellow.png) 0 0 no-repeat transparent; width: 188px; height: 30px; background-size: 100% 100%; }
+header nav a { height: 30px; line-height: 20px; font-size: 18px; color: white; }
+
+header div.auction_info { font-size: 30px; line-height: 40px; position: absolute; left: 0; bottom: 60px; text-align: left; color: white; width: 1200px; }
+header div.auction_info div.auction_name { margin-left: 40px; }
+header div.auction_info .remaining_time { font-size: 160px; line-height: 135px; text-align: center; margin-top: 40px; height: 150px; vertical-align: top; }
+header div.auction_info .remaining_time img { height: 135px; }
+header div.auction_info .day,
+header div.auction_info .hour,
+header div.auction_info .minute,
+header div.auction_info .second { width: 250px; text-align: center; display: inline-block; line-height: 135px; vertical-align: top;}
+header div.auction_info .remaining_time_label { height: 40px; line-height: 40px; font-size: 20px; font-weight: bold; text-align: center;}
+header div.auction_info .remaining_time_label > span { line-height: 40px; display: inline-block; }
+header div.auction_info .remaining_time_label > span.spacing { width: 33.75px; }
+
+div.auction_count { width: 1200px; margin: 80px 0;}
+div.auction_count > div { width: 399px; border-right: 1px solid #B1B1B1; text-align: center; }
+div.auction_count div div.caption { color: #2b2b2b; font-size: 30px; line-height: 30px; }
+div.auction_count div div.count { font-size: 120px; line-height: 120px; margin: 40px 0; border-bottom: 12px solid black; display: inline-block; }
+div.auction_count div.prev div.count { color: #320602; border-color: #320602; }
+div.auction_count div.current div.count { color: #d54e33; font-weight: bold; border-color: #d54e33;  }
+div.auction_count div.next div.count { color: #f8c041; border-color: #f8c041; }
+div.auction_count div a.link { color: #9a9a9a; text-decoration: none; font-size: 20px; line-height: 30px;  }
+
+div.btnRegisterNextAuction { font-size: 30px; line-height: 100px; background-color: #320602; color: white; cursor: pointer; margin-bottom: 15px; }
+div.capRegisterNextAuction { font-size: 20px; line-height: 20px; margin-bottom: 80px;}
+
+div.seperator { width: 400px; margin: 0 400px; border-top: 12px solid #250201; }
+div.seperator span.name_big { font-size: 40px; line-height: 50px; vertical-align: top; }
+div.seperator span.name_small { font-size: 16px; line-height: 40px; vertical-align: top; }
+
+div.categories { margin-bottom: 120px; }
+div.bidding_now { padding-top: 60px; margin-bottom: 160px; }
+div.bidding_now div.seeallwrapper { width: 960px; text-align: right; margin: 0 120px 40px; }
+div.bidding_now a.seeall { color: #9b9b9b; font-size: 25px; text-decoration: none; }
+div.bidding_now div.list { width: 1200px; height: 960px; position: relative; }
+div.bidding_now div.list div.arrow_left { position: absolute; top: 455px; left: 0; width: 50px; height: 50px; line-height: 50px; font-size: 25px; border-radius: 25px; background-color: #f3f3f3; color: #CB3D2B; text-align: center; cursor: pointer; }
+div.bidding_now div.list div.arrow_left.na { color: #c8c8c8; }
+div.bidding_now div.list div.arrow_right { position: absolute; top: 455px; right: 0; width: 50px; height: 50px; line-height: 50px; font-size: 25px; border-radius: 25px; background-color: #f3f3f3; color: #CB3D2B; text-align: center; cursor: pointer; }
+div.bidding_now div.list div.arrow_right.na { color: #c8c8c8; }
+div.bidding_now div.page { width: 960px; height: 960px; margin: 0 120px; }
+div.bidding_now div.page a { width: 294px; height: 294px; padding: 13px; display: inline-block; }
+div.bidding_now div.paginator { font-size: 25px; line-height: 40px; height: 40px; text-align: center; margin-top: 40px; }
+div.bidding_now div.paginator span { display: inline-block; line-height: 40px; margin: 0 10px; cursor: pointer; }
+div.bidding_now div.paginator span.activated { font-weight: bold; border-bottom: 5px solid black; }
+
+div.notice { font-size: 20px; line-height: 30px; margin-top: 60px; }
+div.notice span.notice_label { color: #d54e33; margin-right: 40px; }
+
+footer { border-top: 1px solid #9b9b9b; margin-top: 60px; padding-top: 60px; padding-bottom: 60px; }
+footer a { text-decoration: none; color: black; }
+footer div.text { margin: 20px 0; font-size: 12px; line-height: 18px; }
+footer section.big { width: 540px; }
+footer section.small { width: 190px; margin: 0 15px; }
+footer nav.footer_menu { margin-top: 60px; margin-bottom: 40px; font-size: 12px; line-height: 18px; }
+footer nav.footer_menu div { margin-right: 40px; }
+footer section.small div.label { font-size: 26px; line-height: 30px; margin-top: 8px; margin-bottom: 62px; }
+footer section.small div.sns { border-top: 1px solid #9b9b9b; padding-top: 10px; }
+footer section.small div.sns a { margin: 10px 0 0 10px; display: inline-block; }
+footer section.small div.sns a img { width: 25px; }
+
+/*--------------------------------------*/
+/* auction */ 
+div.auction_header { margin: 60px 0 0; padding-bottom: 40px; border-bottom: 1px solid #b4b4b4; }
+div.auction_header div.category_label { font-size: 40px; font-weight: normal; line-height: 40px; }
+div.auction_header div.selected { font-size: 40px; position: relative; line-height: 40px; cursor: pointer; height: 40px; }
+div.auction_header span.small { font-size: 24px; vertical-align: top; }
+div.auction_header div.selected ul { list-style: none; border: 1px solid #bbb; position: absolute; top: 60px; background: white; z-index: 10; left: -11px; width: 340px;}
+div.auction_header div.selected ul li { border-bottom: 1px solid #bbb; padding: 10px; }
+div.auction_header div.selected ul li:hover { background: #f0f0f0; }
+div.auction_header .arrowBox { width: 35px; height: 36px; font-size: 26px; border: 1px solid #bbbbbb; line-height: 36px; margin-left: 10px; text-align: center; padding: 0 4px 3px 0; }
+div.auction_header .floatR  { font-size: 18px; line-height: 20px; }
+div.auction_header .floatR span span { display: inline-block; width: 100px; text-align: center; }
+
+div.auction_search { border-bottom: 2px solid #727272; padding: 20px 0; }
+div.auction_search span.auction_search_label { font-size: 18px; line-height: 40px; height: 40px; color: #858585; }
+div.auction_search span.auction_search_counter_label { color: #ababab; font-size: 18px; line-height: 40px; height: 40px; }
+div.auction_search span.auction_search_counter_label span.counter { color: #D54E33; }
+div.auction_search input.input_search { font-size: 18px; line-height: 38px; height: 38px; border: 1px solid #cdcdcd; padding: 0 10px; width: 300px; margin-left: 20px; color: #858585;}
+div.auction_search div.btn_search { display: inline-block; font-size: 18px; line-height: 40px; height: 40px; background-color: #f5b53f; cursor: pointer; text-align: center; width: 80px; }
+
+
+

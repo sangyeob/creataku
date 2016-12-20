@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<title>CREATAKU</title>
+		<link rel='icon' href='/static/img/favicon.ico' type='image/x-icon'/>
+		<link rel="stylesheet" type="text/css" href="/static/css/redesign/style.css" />
+		<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="/static/js/redesign/script.js"></script>
+		<style>
+		header { background: url(/static/img/redesign_img/header-img{{ context.mainimg_id }}.png) 0 0 no-repeat transparent; background-size: cover; }
+		</style>
+		<script>
+			$bidend = new Date("{{ context.time_end }}");
+			$timenow = new Date("{{ context.time_now }}");
+		</script>
+		{% block head %}
+		{% endblock %}
+	</head>
+	<body id="index">
+		{% block header %}
+		<header>
+			<div class="container1200">
+				<nav class="menu_top">
+					<a class="logo floatL" href="/"></a>
+					<a class="community floatR" href="/community/notice/">COMMUNITY</a>
+					<a class="auction floatR" href="/auction/">AUCTION</a>
+					{% if context.is_authenticated == False %}
+					<a class="login floatR" href="#login">LOGIN</a>
+					{% else %}
+					<a class="logout floatR" href="{{ url_for('auction_account_logout') }}">LOGOUT</a>
+					{% endif %}
+					{% if context.is_authenticated %}
+					<a class="my floatR" href="/my/">MY</a>
+					{% endif %}
+				</nav>
+				<div class="auction_info">
+					<div class="auction_name">
+						[01st] <br />
+						<b>2016 12 BIDDING CLOSING</b>
+					</div>
+					<div class="remaining_time">
+						<span class="day">00</span><img src="/static/img/redesign_img/dash_big.png" /><span class="hour">00</span><img src="/static/img/redesign_img/dash_small.png" /><span class="minute">00</span><img src="/static/img/redesign_img/dash_small.png" /><span class="second">00</span>
+					</div>
+					<div class="remaining_time_label">
+						<span class="day">DAYS</span><span class="spacing"></span><span class="hour">HOUR</span><span class="spacing"></span><span class="minute">MIN</span><span class="spacing"></span><span class="second">SEC</span>
+					</div>
+				</div>
+			</div>
+		</header>
+		{% endblock %}
+		{% block contents %}
+		{% endblock %}
+		{% block footer %}
+		<div class="container1200 notice">
+			<span class="notice_label">공지사항</span>
+			<span class="notice_content">1차 경매가 시작되었습니다. 2차 경매품은 2017년 1월 15일 까지 신청받습니다.</span>
+		</div>
+		<footer>
+			<div class="container1200 clearfix">
+				<section class="big floatL">
+					<div class="footer_logo">
+						<img src="/static/img/logo_footer.png" />
+					</div>
+					<nav class="footer_menu clearfix">
+						<div class="floatL">서비스약관</div>
+						<div class="floatL">온라인경매약관</div>
+						<div class="floatL">개인정보취급방침</div>
+						<div class="floatL">이메일무단수집거부</div>
+					</nav>
+					<div class="text">COPYRIGHT © 2016 36Q CO, LTD<br />ALL RIGHTS RESERVED</div>
+					<div class="text">대표이사 : 김병철<br />사업자등록번호 : 000-00-00000<br />통신판매업신고 : 0000-서울강서-00000</div>
+				</section>
+				<section class="small floatL">
+					<div class="label">FOLLOW US</div>
+					<div class="text">크리에이타쿠 SNS에서 다양한 작품들과 더 많은 아티스트를 만나보세요.</div>
+					<div class="sns">
+						<a href="#sns-facebook"><img src="/static/img/redesign_img/sns-fb.png" /></a>
+						<a href="#sns-instagram"><img src="/static/img/redesign_img/sns-insta.png" /></a>
+					</div>
+				</section>
+				<section class="small floatL">
+					<div class="label">CONTACT</div>
+					<div class="text"><a href="mailto:help@36-q.com">help@36-q.com</a></div>
+				</section>
+				<section class="small floatL">
+					<div class="label">DOWNLOAD</div>
+					<div class="text">APP STORE</div>
+					<div class="text">GOOGLE PLAYSTORE</div>
+				</section>
+			</div>
+		</footer>
+		{% endblock %}
+		<style>
+			.popup_input_box { margin: 10px 0; }
+			.popup_input_label { width: 120px; text-align: left; font-size: 20px; line-height: 40px; display: inline-block; vertical-align: top; color: #5d5d5d; }
+			.popup_input_box input { width: 440px; padding: 5px 20px; height: 30px; border-radius: 2px; line-height: 30px; font-size: 20px; border: 0px none; margin: 0; vertical-align: top;  color: #5d5d5d; }
+		</style>
+		<div class="pop_login popup_background">
+			<div class="vam-wrapper popup_wrapper">
+				<div class="login popup_contents">
+					<form class="login" method="POST" action="{{ url_for('auction_account_login') }}">
+						<div class="popup_header">로그인</div>
+						<input type="hidden" name="next" value="{{ next or context.next or '' }}" />
+						<input type="hidden" name="validated" value="false" />
+						<div class="popup_input_box">
+							<span class="popup_input_label">이메일</span><input type="text" name="email" placeholder="이메일 주소를 입력해주세요">
+						</div>
+						<div class="popup_input_box">
+							<span class="popup_input_label">비밀번호</span><input type="password" name="password" placeholder="비밀번호">
+						</div>
+						<button class="login">로그인</button>
+						<a class="switch" style="margin-top: 20px; display: inline-block;" href="#">크리에이타쿠 계정이 없나요?</a>
+					</form>
+					<form class="signup disp-none" method="POST" action="{{ url_for('auction_account_signup') }}">
+						<div class="popup_header">회원가입</div>
+						<input type="hidden" name="next" value="{{ next or context.next or '' }}" />
+						<input type="hidden" name="validated" value="false" />
+						<div class="popup_input_box">
+							<span class="popup_input_label">이메일</span><input type="text" name="email" placeholder="이메일 주소를 입력해주세요">
+						</div>
+						<div class="popup_input_box">
+							<span class="popup_input_label">비밀번호</span><input type="password" name="password" placeholder="비밀번호를 입력해 주세요">
+						</div>
+						<div class="popup_input_box">
+							<span class="popup_input_label">비밀번호 확인</span><input type="password" name="password-confirm" placeholder="비밀번호를 한번 더 입력해주세요">
+						</div>
+						<p style="margin: 20px 0 10px;">회원가입을 하면 크리에이타쿠의 <span>서비스 약관</span>, <span>개인정보 보호정책</span>에 동의하는 것으로 간주됩니다.</p>
+						<button class="signup">회원가입</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('div.pop_login').click(function() {
+				$(this).find('input[name=email]').val('');
+				$(this).find('input[name=password]').val('');
+				$(this).find('input[name=password-confirm]').val('');
+				$(this).find('form.login').removeClass('disp-none');
+				$(this).find('form.signup').addClass('disp-none');
+			});
+			
+			$('div.pop_login a.switch').click(function() {
+				$('div.pop_login form.login').addClass('disp-none');
+				$('div.pop_login form.signup').removeClass('disp-none');
+				return false;
+			});
+			
+
+			$('div.pop_login form.login').submit(function(e) {
+				if($(this).find('input[name=validated]').val() == "false") {
+					e.preventDefault();
+					$.ajax({
+						url: "{{ url_for('auction_account_check_validity') }}",
+						type: "POST",
+						contentType: 'application/json;chatset=UTF-8',
+						data: JSON.stringify({
+							email: $('div.pop_login form.login input[name=email]').val(),
+							password: $('div.pop_login form.login input[name=password]').val()
+						}),
+						success: function(ret) {
+							if(ret == "NotRegistered")
+								alert('등록되지 않은 사용자입니다.');
+							else if(ret == "WrongPassword")
+								alert('잘못된 비밀번호입니다.');
+							else if(ret == "OK") {
+								$('div.pop_login form.login input[name=validated]').val('true');
+								$('div.pop_login form.login').submit();
+							}
+							else
+								alert('알 수 없는 에러가 발생하였습니다.');
+						},
+						error: function() {
+							alert('서버와 통신할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+						}
+					});
+				}
+			});
+			$('div.pop_login form.login button').click(function(e) {
+				e.preventDefault();
+				$('div.pop_login form.login').submit();
+			});
+
+			$('div.pop_login form.signup').submit(function(e) {
+				if($(this).find('input[name=validated]').val() == "false") {
+					e.preventDefault();
+					$.ajax({
+						url: "{{ url_for('auction_account_check_availability') }}",
+						type: "POST",
+						contentType: 'application/json;chatset=UTF-8',
+						data: JSON.stringify({
+							email: $('div.pop_login form.signup input[name=email]').val(),
+							password: $('div.pop_login form.signup input[name=password]').val(),
+							password_confirm: $('div.pop_login form.signup input[name=password-confirm]').val()
+						}),
+						success: function(ret) {
+							if(ret == "PasswordConfirmFailed")
+								alert('입력한 두 비밀번호가 다릅니다.');
+							else if(ret == "AccountExist")
+								alert('이미 존재하는 이메일 계정입니다.');
+							else if(ret == "EmailEmpty")
+								alert('이메일 주소를 입력해 주세요.');
+							else if(ret == "PasswordEmpty")
+								alert('비밀번호를 입력해 주세요.');
+							else if(ret == "OK") {
+								$('div.pop_login form.signup input[name=validated]').val('true');
+								$('div.pop_login form.signup').submit();
+							}
+							else
+								alert('알 수 없는 에러가 발생하였습니다.');
+						},
+						error: function() {
+							alert('서버와 통신할 수 없습니다. 잠시 후 다시 시도해 주세요.');
+						}
+					});
+				}
+			});
+			$('div.pop_login form.signup button').click(function(e) {
+				e.preventDefault();
+				$('div.pop_login form.signup').submit();
+			});
+		</script>
+	</body>
+</html>
