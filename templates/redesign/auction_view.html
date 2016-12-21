@@ -1,0 +1,94 @@
+{% extends 'redesign/template.html' %}
+{% block headerbackimg %}{{ context['item'].header_pic_src }}{% endblock %}
+{% block contents %}
+<style>
+div.auction_view_detail { padding: 80px 0; }
+div.auction_view_detail div.lot { font-size: 32px; line-height: 40px; color: #858585; width: 200px; }
+div.auction_view_detail div.lot span { font-size: 52px; line-height: 80px; }
+div.auction_view_detail div.info { width: 1000px; font-size: 26px; line-height: 38px; }
+div.auction_view_detail div.info div.name { min-height: 110px; line-height: 80px; font-size: 60px; font-weight: bold; color: #2b2b2b; border-bottom: 1px solid #cbcbcb; padding-bottom: 40px; }
+div.auction_view_detail div.info div.description { font-size: 26px; line-height: 32px; margin: 10px 0; color: #5d5d5d; }
+div.auction_view_detail div.info div.description div:first-child { font-weight: bold; margin-top: 20px;margin-bottom: 40px; }
+div.auction_view_detail div.info div.estimated_value { font-size: 26px; line-height: 38px; margin-top: 60px; border-bottom: 1px solid #320200; padding-bottom: 20px; }
+div.auction_view_detail div.info div.start_price { padding: 40px 0; border-bottom: 1px solid #b2b2b2;}
+div.auction_view_detail div.info span.price { font-size: 42px; line-height: 60px; }
+div.auction_view_detail div.info div.current_price { padding: 40px 0 80px; }
+div.auction_view_detail div.info div.current_price span.price { font-weight: bold; }
+div.auction_view_detail div.info div.current_price div.floatR { font-size: 20px; line-height: 30px; color: #ababab; margin-top: 68px; }
+div.auction_view_detail div.info div.current_price div.floatR span.last { color: #2c2c2c; }
+div.auction_view_detail div.info div.btns { margin-bottom: 60px;  }
+div.auction_view_detail div.info div.btns div { width: 480px; height: 100px; line-height: 100px; text-align: center; background-color: #320200; color: white; margin-right: 40px; cursor: pointer; font-weight: bold; }
+div.auction_view_detail div.info div.btns div.deactivated { cursor: default; background-color: #838383;  }
+div.auction_view_detail div.info div.smallbtns { font-size: 20px; line-height: 30px; }
+div.auction_view_detail div.info div.smallbtns div.btn_condition { cursor: pointer; border: 1px solid #ca3d2b; color: #ca3d2b; margin-right: 20px; padding: 5px 20px; }
+div.auction_view_detail div.info div.smallbtns div.btn_fee { cursor: pointer; border: 1px solid #808080; color: #808080; padding: 5px 20px; }
+div.caution { padding: 60px 0; border-top: 1px solid #ca3d2b; border-bottom: 1px solid #ca3d2b; font-size: 26px; line-height: 38px; }
+div.caution div.label { width: 200px; color: #ca3d2b; vertical-align: middle; display: inline-block; font-size: 32px; line-height: 40px; }
+div.caution div.contents { display: inline-block; width: 990px; vertical-align: middle; color: #575757; }
+div.detail_description { padding: 120px 0 120px; }
+div.detail_description img { border: 1px solid #979797; }
+div.detail_description div { font-size: 24px; line-height: 40px; text-align: left; padding: 20px; }
+div.related { border-top: 1px solid #b7b7b7; padding-top: 40px; }
+div.related span { font-size: 26px; line-height: 38px; color: #5d5d5d; font-weight: bold; }
+div.related div.items_slide { width: 1200px; padding: 40px 0; }
+div.related div.items_slide div.related_item { margin-right: 50px; }
+div.related div.items_slide div.related_item img { width: 300px; display: block; }
+</style>
+<div class="auction_view_detail clearfix container1200">
+	<div class="lot floatL">LOT.<br/><span class="lot">{{ context['item'].lot }}</span></div>
+	<div class="info floatL">
+		<div class="name">{{ context['item'].name }}</div>
+		<div class="description">
+			{{ context['item'].description | safe }}
+		</div>
+		<div class="estimated_value">추정가 | {{ context['item'].expected_value }} KRW</div>
+		<div class="start_price">
+			<span class="label">시작가</span><br />
+			<span class="price">{{ context['item'].start_price_str }} KRW</span>
+		</div>
+		<div class="current_price clearfix">
+			<div class="floatL">
+				<span class="label">현재가</span><br />
+				<span class="price">{{ context['item'].current_price_str }} KRW</span>
+			</div>
+			<div class="floatR">
+				마지막 응찰 | <span class="last">{% if context['item']['last_bid_at_str'] != None %}{{ context['item']['last_bid_at_str'] }}{% else %}없음{% endif %}</span>
+			</div>
+		</div>
+		<div class="btns clearfix">
+			<div class="btn_buynow deactivated floatL no-select">즉시구매</div>
+			<div class="btn_bid floatL nmr no-select" attr-bid-id="{{ context['item']['id'] }}">응찰하기</div>
+		</div>
+		<div class="smallbtns clearfix">
+			<div class="btn_condition floatL no-select">컨디션 리포트</div>
+			<div class="btn_fee floatL no-select">수수료 안내</div>
+		</div>
+	</div>
+</div>
+<div class="caution container1200">
+	<div class="label">응찰 시<br /><b>주의사항</b></div>
+	<div class="contents">
+		<div>낙찰금을 낙찰일로부터 3일이내 완납받지 못하는경우 서면합의(철회비용발생)가 없는 이상</div>
+		<div>CREATAKU는 다음과 같은 조치를 취하게 됩니다.</div>
+		<div>1. 낙찰철회비용 청구(낙찰비의 30%)</div>
+		<div>2. 기타 CREATAKU가 판단하기에 필요하거나 적절하다고 고려되는 법적 조치</div>
+	</div>
+</div>
+<div class="container1200 detail_description ta-center">
+	{{ context['item']['detail'] | safe }}
+</div>
+{% if context['item']['related'] %}
+<div class="related">
+	<div class="container1200">
+		<span class="label">연관 작품</span>
+		<div class="items_slide clearfix">
+			{% for r in context['item']['related'] %}
+			<a href="/auction/view/{{ r.id }}/" class="floatL disp-block">
+				<div class="related_item"><img src="{{ r.small_pic_src }}" /></div>
+			</a>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}

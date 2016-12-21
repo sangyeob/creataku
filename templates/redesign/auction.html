@@ -27,41 +27,62 @@
 	</div>
 	<div class="auction_search clearfix">
 		<span class="auction_search_label floatL">검색결과</span>
-		<span class="auction_search_counter_label floatL">| 총 <span class="counter">0</span> 개</span>
+		<span class="auction_search_counter_label floatL">| 총 <span class="counter">{{ context['items']|length }}</span> 개</span>
 		<input type="text" class="input_search floatL" placeholder="상품명, Lot검색" />
 		<div class="btn_search floatL">검색</div>
 	</div>
-	<style>
-	div.auction_products div.product { width: 380px; margin-right: 30px; display: inline-block; margin-top: 40px; margin-bottom: 80px; }
-	div.auction_products div.product div.photo img { width: 380px; }
-	div.auction_products div.product div.nametag { margin-top: 20px; }
-	div.auction_products div.product div.nametag div.lot { font-size: 38px; line-height: 60px; color: #858585; width: 100px; text-align: center; }
-	div.auction_products div.product div.nametag div.name { font-size: 32px; line-height: 40px; color: #2c2c2c; width: 280px; word-break: break-all; font-weight: bold; }
-	div.auction_products div.product div.description { width: 380px; font-size: 28px; line-height: 35px; color: #5d5d5d; }
-	div.auction_products div.product div.description div { margin: 10px 0; }
-	div.auction_products div.product div.pricetag { font-size: 28px; line-height: 40px; color: #2c2c2c; }
-	div.auction_products div.product div.btn_bid { width: 380px; height: 60px; line-height: 60px; background-color: #250201; color: white; text-align: center;	font-size: 28px; margin-top: 40px; cursor: pointer; }
-	</style>
+	<script>
+	function search(q) {
+		var counter = 0;
+		$('div.product').each(function() {
+			if($(this).find('.lot').text() == q || $(this).find('.name').text().indexOf(q) > -1) {
+				counter ++;
+				if(counter % 3 == 0) $(this).addClass('nmr');
+				else $(this).removeClass('nmr');
+				$(this).removeClass('disp-none');
+			} else {
+				$(this).addClass('disp-none');
+			}
+		});
+		if(counter == 0) {
+			$('.auction_products .no-item').removeClass('disp-none');
+		} else {
+			$('.auction_products .no-item').addClass('disp-none');
+		}
+		$('div.auction_search span.counter').text(counter);
+	}
+	$('input.input_search').keypress(function(e) {
+		if(e.keyCode == 13) {
+			search($(this).val());
+			return false;
+		}
+	});
+	$('.btn_search').click(function() {
+		search($('input.input_search').val());
+	});
+	</script>
 	<div class="auction_products">
-		{% for i in context.categories %}<div class="product {% if loop.index % 3 == 0 %}nmr{% endif %}">
+		<div class="no-item {% if context['items'] != [] %}disp-none{% endif %}">
+			해당 아이템이 없습니다.
+		</div>
+		{% for item in context['items'] %}<div class="product {% if loop.index % 3 == 0 %}nmr{% endif %}">
 			<a href="/auction/view/{{ loop.index }}/" style="display: block;">
 			<div class="photo" >
-				<img src="/static/img/redesign_img/auctionlist-item-02.png" />
+				<img src="{{ item.small_pic_src }}" />
 			</div>
 			<div class="nametag clearfix">
-				<div class="lot floatL">00{{ loop.index }}</div>
-				<div class="name floatL">트랜스포머 옵티머스프라임</div>
+				<div class="lot floatL">{{ item.lot }}</div>
+				<div class="name floatL">{{ item.name }}</div>
 			</div>
 			<div class="description">
-				<div>영화 트랜스포머 옵티머스프라임 장신 피규어</div>
-				<div>52x88cm</div>
+				{{ item.description | safe }}
 			</div>
 			<div class="pricetag">
-				<div class="startprice">시작가 | 1,200,000 KRW</div>
-				<div class="pricenow">현재가 | 1,873,000 KRW</div>
+				<div class="startprice">시작가 | {{ item.start_price_str }} KRW</div>
+				<div class="pricenow">현재가 | {{ item.current_price_str }} KRW</div>
 			</div>
 			<a>
-			<div class="btn_bid no-select">응찰하기</div>
+			<div class="btn_bid no-select" attd-bid-id="{{ item.id }}">응찰하기</div>
 		</div>{% endfor %}
 	</div>
 </div>

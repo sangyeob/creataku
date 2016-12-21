@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="/static/js/redesign/script.js"></script>
 		<style>
-		header { background: url(/static/img/redesign_img/header-img{{ context.mainimg_id }}.png) 0 0 no-repeat transparent; background-size: cover; }
+		header { background: url({% block headerbackimg %}/static/img/redesign_img/header-img{{ context.mainimg_id }}.png{% endblock %}) 0 0 no-repeat transparent; background-size: cover; }
 		</style>
 		<script>
 			$bidend = new Date("{{ context.time_end }}");
@@ -52,8 +52,8 @@
 		{% endblock %}
 		{% block footer %}
 		<div class="container1200 notice">
-			<span class="notice_label">공지사항</span>
-			<span class="notice_content">1차 경매가 시작되었습니다. 2차 경매품은 2017년 1월 15일 까지 신청받습니다.</span>
+			<a href="/community/notice/"><span class="notice_label">공지사항</span></a>
+			<a href="/community/view/1/"><span class="notice_content">1차 경매가 시작되었습니다. 2차 경매품은 2017년 1월 15일 까지 신청받습니다.</span></a>
 		</div>
 		<footer>
 			<div class="container1200 clearfix">
@@ -62,10 +62,14 @@
 						<img src="/static/img/logo_footer.png" />
 					</div>
 					<nav class="footer_menu clearfix">
-						<div class="floatL">서비스약관</div>
+						<a class="terms" href="#"><div class="floatL">서비스약관</div></a>
+						<!--
 						<div class="floatL">온라인경매약관</div>
-						<div class="floatL">개인정보취급방침</div>
+						-->
+						<a class="privacy" href="#"><div class="floatL">개인정보취급방침</div></a>
+						<!--
 						<div class="floatL">이메일무단수집거부</div>
+						-->
 					</nav>
 					<div class="text">COPYRIGHT © 2016 36Q CO, LTD<br />ALL RIGHTS RESERVED</div>
 					<div class="text">대표이사 : 김병철<br />사업자등록번호 : 000-00-00000<br />통신판매업신고 : 0000-서울강서-00000</div>
@@ -74,8 +78,8 @@
 					<div class="label">FOLLOW US</div>
 					<div class="text">크리에이타쿠 SNS에서 다양한 작품들과 더 많은 아티스트를 만나보세요.</div>
 					<div class="sns">
-						<a href="#sns-facebook"><img src="/static/img/redesign_img/sns-fb.png" /></a>
-						<a href="#sns-instagram"><img src="/static/img/redesign_img/sns-insta.png" /></a>
+						<a target="_blank" href="https://www.facebook.com/creataku/"><img src="/static/img/redesign_img/sns-fb.png" /></a>
+						<a target="_blank" href="https://www.instagram.com/creataku/"><img src="/static/img/redesign_img/sns-insta.png" /></a>
 					</div>
 				</section>
 				<section class="small floatL">
@@ -84,8 +88,8 @@
 				</section>
 				<section class="small floatL">
 					<div class="label">DOWNLOAD</div>
-					<div class="text">APP STORE</div>
-					<div class="text">GOOGLE PLAYSTORE</div>
+					<div class="text"><a class="noav" href="#na">APP STORE</a></div>
+					<div class="text"><a class="noav" href="#na">GOOGLE PLAYSTORE</a></div>
 				</section>
 			</div>
 		</footer>
@@ -124,9 +128,48 @@
 						<div class="popup_input_box">
 							<span class="popup_input_label">비밀번호 확인</span><input type="password" name="password-confirm" placeholder="비밀번호를 한번 더 입력해주세요">
 						</div>
-						<p style="margin: 20px 0 10px;">회원가입을 하면 크리에이타쿠의 <span>서비스 약관</span>, <span>개인정보 보호정책</span>에 동의하는 것으로 간주됩니다.</p>
+						<p style="margin: 20px 0 10px;">회원가입을 하면 크리에이타쿠의 <a class="terms td-ul" href="#">서비스 약관</a>, <a class="privacy td-ul" href="#">개인정보 보호정책</a>에 동의하는 것으로 간주됩니다.</p>
 						<button class="signup">회원가입</button>
 					</form>
+				</div>
+			</div>
+		</div>
+		<div class="pop_bid popup_background">
+			<div class="vam-wrapper popup_wrapper">
+				<div class="bid popup_contents">
+					<form class="bid" action="{{ url_for('auction_bid') }}" method="POST">
+						<input type="hidden" name="location" value="{{ context.next }}" />
+						<input type="hidden" name="user_id" value="{{ session.user }}" />
+						<input type="hidden" name="auc_id" value="" />
+						<div class="wrapper">
+							<input type="text" name="price" /><div class="control">
+								<div class="no-select up">+</div>
+								<div class="no-select down disabled">-</div>
+							</div><div class="submit">입찰!</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="pop_terms popup_background">
+			<div class="popup_wrapper">
+				<div class="popup_contents">
+					<div class="popup_header">이용약관</div>
+					<div class="scroller400" style="height: 400px; overflow: auto; max-height: 40vh;">
+{% include 'redesign/terms.html' %}
+					</div>
+					<button class="close">닫기</button>
+				</div>
+			</div>
+		</div>
+		<div class="pop_privacy popup_background">
+			<div class="popup_wrapper">
+				<div class="popup_contents">
+					<div class="popup_header">이용약관</div>
+					<div class="scroller400" style="height: 400px; overflow: auto; max-height: 40vh;">
+{% include 'redesign/privacy.html' %}
+					</div>
+					<button class="close">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -138,7 +181,24 @@
 				$(this).find('form.login').removeClass('disp-none');
 				$(this).find('form.signup').addClass('disp-none');
 			});
-			
+			$('a.terms').click(function() {
+				$('div.pop_terms').css("display", 'table');
+				return false;
+			});
+			$('div.pop_terms button').click(function() {
+				$('div.pop_terms').css('display', 'none');
+			});
+			$('a.privacy').click(function() {
+				$('div.pop_privacy').css("display", 'table');
+				return false;
+			});
+			$('div.pop_privacy button').click(function() {
+				$('div.pop_privacy').css('display', 'none');
+			});
+			$('div.btn_bid').click(function() {
+				$('div.pop_bid').css("display", 'table');
+				return false;
+			});
 			$('div.pop_login a.switch').click(function() {
 				$('div.pop_login form.login').addClass('disp-none');
 				$('div.pop_login form.signup').removeClass('disp-none');
@@ -213,6 +273,10 @@
 						}
 					});
 				}
+			});
+			$('footer a.noav').click(function() {
+				alert('준비중입니다!');
+				return false;
 			});
 			$('div.pop_login form.signup button').click(function(e) {
 				e.preventDefault();
