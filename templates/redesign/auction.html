@@ -82,7 +82,7 @@
 				<div class="pricenow">현재가 | {{ item.current_price_str }} KRW</div>
 			</div>
 			<a>
-			<div class="btn_bid no-select" attd-bid-id="{{ item.id }}">응찰하기</div>
+			<div class="btn_bid no-select" attr-bid-id="{{ item.id }}" attr-bid-name="LOT.{{ item.lot }} {{ item.name }}" attr-bid-current-price-str="{{ item.current_price_str }}" attr-bid-current-price="{{ item.current_price }}">응찰하기</div>
 		</div>{% endfor %}
 	</div>
 </div>
@@ -95,7 +95,7 @@ $('.selected').click(function(e) {
 	$(this).find('ul').removeClass('disp-none');
 });
 $('.selected .option').click(function() {
-	location.href ="/auction/" + $(this).attr('attr-value') + '/'
+	location.href = "/auction/" + $(this).attr('attr-value') + '/';
 });
 </script>
 {% endblock %}

@@ -52,12 +52,12 @@ div.related div.items_slide div.related_item img { width: 300px; display: block;
 				<span class="price">{{ context['item'].current_price_str }} KRW</span>
 			</div>
 			<div class="floatR">
-				마지막 응찰 | <span class="last">{% if context['item']['last_bid_at_str'] != None %}{{ context['item']['last_bid_at_str'] }}{% else %}없음{% endif %}</span>
+				마지막 응찰 | <span class="last">{% if context['last_bid_at_str'] %}{{ context['last_bid_at_str'] }}{% else %}없음{% endif %}</span>
 			</div>
 		</div>
 		<div class="btns clearfix">
 			<div class="btn_buynow deactivated floatL no-select">즉시구매</div>
-			<div class="btn_bid floatL nmr no-select" attr-bid-id="{{ context['item']['id'] }}">응찰하기</div>
+			<div class="btn_bid floatL nmr no-select" attr-bid-id="{{ context['item']['id'] }}" attr-bid-name="LOT.{{ context['item'].lot }} {{ context['item'].name}}" attr-bid-current-price-str="{{ context['item'].current_price_str }}" attr-bid-current-price="{{ context['item'].current_price }}">응찰하기</div>
 		</div>
 		<div class="smallbtns clearfix">
 			<div class="btn_condition floatL no-select">컨디션 리포트</div>

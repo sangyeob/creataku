@@ -141,16 +141,27 @@
 						<input type="hidden" name="location" value="{{ context.next }}" />
 						<input type="hidden" name="user_id" value="{{ session.user }}" />
 						<input type="hidden" name="auc_id" value="" />
+						<input type="hidden" name="current_price" value="" />
 						<div class="wrapper">
-							<input type="text" name="price" /><div class="control">
-								<div class="no-select up">+</div>
-								<div class="no-select down disabled">-</div>
-							</div><div class="submit">입찰!</div>
+							<div class="popup_header"></div>
+							<div class="current_price_box clearfix">
+								<div class="current_price_label floatL">현재가</div>
+								<div class="current_price_str floatL"></div>
+							</div>
+							<input type="text" name="price" class="price" placeholder="응찰가를 숫자로만 입력해 주세요" />
+							<div class="labelprice">KRW (최소단위: 1,000)</div>
+							<div class="submit">응찰하기</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
+		<style>
+		div.pop_bid div.current_price_box { font-size: 30px; line-height: 45px; padding: 20px 0 10px; width: 500px; margin: 0 50px; }
+		div.pop_bid div.current_price_box div.current_price_str { color: #d54e33; font-size: 36px; line-height: 45px; font-weight: bold; margin-left: 40px; }
+		div.pop_bid input.price { width: 460px; margin: 20px 50px 10px; padding: 10px 20px; border: 1px solid #757575; font-size: 30px; line-height: 50px; height: 50px; } 
+		div.pop_bid div.labelprice { width: 500px; padding: 0 50px 20px; text-align: right; font-size: 24px; line-height: 30px; }
+		</style>
 		<div class="pop_terms popup_background">
 			<div class="popup_wrapper">
 				<div class="popup_contents">
@@ -173,6 +184,17 @@
 				</div>
 			</div>
 		</div>
+		{% if context.flash %}
+		<div class="pop_flash popup_background">
+			<div class="popup_wrapper">
+				<div class="popup_contents">
+					<div class="popup_header">알림</div>
+					<div class="message">{{ context.flash }}</div>
+					<button class="close">닫기</button>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 		<script type="text/javascript">
 			$('div.pop_login').click(function() {
 				$(this).find('input[name=email]').val('');
@@ -195,10 +217,36 @@
 			$('div.pop_privacy button').click(function() {
 				$('div.pop_privacy').css('display', 'none');
 			});
+			$('div.pop_flash button').click(function() {
+				$('div.pop_flash').css('display', 'none');
+			});
+
 			$('div.btn_bid').click(function() {
+				if("{{ context.is_authenticated }}" == "False") {
+					$('div.pop_login').css("display", 'table');
+					return false;
+				}
+				$('div.pop_bid div.popup_header').text($(this).attr('attr-bid-name'));
+				$('div.pop_bid div.current_price_str').text($(this).attr('attr-bid-current-price-str'));
+				$('div.pop_bid input[name=current_price]').val($(this).attr('attr-bid-current-price'));
+				$('div.pop_bid input[name=auc_id]').val($(this).attr('attr-bid-id'));
+				$('div.pop_bid input[name=price]').val('')
 				$('div.pop_bid').css("display", 'table');
+				$('div.pop_bid input[name=price]').focus();
 				return false;
 			});
+			$('div.pop_bid').click(function() {
+				$('div.pop_bid div.popup_header').text('');
+				$('div.pop_bid div.current_price_str').text('');
+				$('div.pop_bid input[name=current_price]').val('');
+				$('div.pop_bid input[name=auc_id]').val('');
+			});
+
+			$('div.bid div.submit').click(function() {
+				$('form.bid').submit();
+			});
+
+
 			$('div.pop_login a.switch').click(function() {
 				$('div.pop_login form.login').addClass('disp-none');
 				$('div.pop_login form.signup').removeClass('disp-none');
