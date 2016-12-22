@@ -9,7 +9,7 @@
 		</div>
 		<div class="current floatL">
 			<div class="caption">현재 경매품</div>
-			<div class="count">12</div><br />
+			<div class="count">10</div><br />
 			<a class="link" href="/auction/">경매품 보러가기 &gt;</a>
 		</div>
 		<div class="next nbr floatL">
@@ -20,7 +20,7 @@
 	</div>
 </div>
 <div class="container1200 btnRegisterNextAuction ta-center">다음 회 [02nd] 경매 신청하기</div>
-<div class="container1200 capRegisterNextAuction ta-center">| 다음 회 [02nd] 경매는 <b class="td-ul">2017년 1월 15일까지</b> 신청받습니다 |</div>
+<div class="container1200 capRegisterNextAuction ta-center">| 다음 회 [02nd] 경매는 2017년 1월 1일부터 <b class="td-ul">2017년 1월 15일까지</b> 신청받습니다 |</div>
 <div class="container1200">
 	<div class="seperator ta-center">
 		<span class="name_big">Category</span>
@@ -59,6 +59,11 @@ $(document).ready(function() {
 	});
 });
 */
+$(document).ready(function() {
+	$('.btnRegisterNextAuction').click(function() {
+		showAlert('아직 경매 신청이 오픈되지 않았습니다.')
+	});
+});
 </script>
 <div class="container1200 bidding_now">
 	<div class="seeallwrapper"><a class="seeall" href="/auction/">전체보기 &gt;</a></div>
@@ -71,6 +76,7 @@ $(document).ready(function() {
 			<a href="/auction/view/1/"><img src="/static/img/redesign_img/auctionlist-item-01.png"/></a><a href="/auction/view/2/"><img src="/static/img/redesign_img/auctionlist-item-02.png"/></a><a href="/auction/view/3/"><img src="/static/img/redesign_img/auctionlist-item-03.png"/></a>
 			<a href="/auction/view/4/"><img src="/static/img/redesign_img/auctionlist-item-04.png"/></a><a href="/auction/view/5/"><img src="/static/img/redesign_img/auctionlist-item-05.png"/></a><a href="/auction/view/6/"><img src="/static/img/redesign_img/auctionlist-item-06.png"/></a>
 			<a href="/auction/view/7/"><img src="/static/img/redesign_img/auctionlist-item-07.png"/></a><a href="/auction/view/8/"><img src="/static/img/redesign_img/auctionlist-item-08.png"/></a><a href="/auction/view/9/"><img src="/static/img/redesign_img/auctionlist-item-09.png"/></a>
+			<a href="/auction/view/10/"><img src="/static/img/redesign_img/auction-item13-1.png"/></a>
 		</div>
 		<div class="page page_2 disp-none">
 			<div class="placeholder" style="width: 960px; height: 320px;">&nbsp;</div>

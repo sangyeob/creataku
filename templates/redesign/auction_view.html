@@ -56,10 +56,10 @@ div.related div.items_slide div.related_item img { width: 300px; display: block;
 			</div>
 		</div>
 		<div class="btns clearfix">
-			<div class="btn_buynow deactivated floatL no-select">즉시구매</div>
-			<div class="btn_bid floatL nmr no-select" attr-bid-id="{{ context['item']['id'] }}" attr-bid-name="LOT.{{ context['item'].lot }} {{ context['item'].name}}" attr-bid-current-price-str="{{ context['item'].current_price_str }}" attr-bid-current-price="{{ context['item'].current_price }}">응찰하기</div>
+			<!--<div class="btn_buynow deactivated floatL no-select">즉시구매</div>-->
+			<div class="btn_bid floatL nmr no-select" style="width:100%;" attr-bid-id="{{ context['item']['id'] }}" attr-bid-name="LOT.{{ context['item'].lot }} {{ context['item'].name}}" attr-bid-current-price-str="{{ context['item'].current_price_str }}" attr-bid-current-price="{{ context['item'].current_price }}">응찰하기</div>
 		</div>
-		<div class="smallbtns clearfix">
+		<div class="smallbtns clearfix disp-none">
 			<div class="btn_condition floatL no-select">컨디션 리포트</div>
 			<div class="btn_fee floatL no-select">수수료 안내</div>
 		</div>
