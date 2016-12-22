@@ -266,6 +266,4 @@ div.auction_products div.product div.description { width: 380px; font-size: 28px
 div.auction_products div.product div.description div { margin: 10px 0; word-break: break-all; }
 div.auction_products div.product div.pricetag { font-size: 28px; line-height: 40px; color: #2c2c2c; }
 div.auction_products div.product div.btn_bid { width: 380px; height: 60px; line-height: 60px; background-color: #250201; color: white; text-align: center;	font-size: 28px; margin-top: 40px; cursor: pointer; }
-
-
-
+div.auction_products div.product div.btn_bid.mine { background-color: #5d5d5d; }

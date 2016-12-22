@@ -2,16 +2,10 @@
 {% block contents %}
 <div class="container1200">
 	<div class="auction_header clearfix">
-		<div class="category_label floatL">Category | </div>
+		<div class="category_label floatL">My Page | </div>
 		<div class="floatL">
-			<div class="selected clearfix" attr-value="figure">
-				<div class="floatL htmlhere">{{ context.category_names[context.category][0] }}<span class="small">&nbsp;{{ context.category_names[context.category][1] }}</span></div>
-				<ul class="selectbox disp-none">
-				{% for c in context.categories %}
-					<li class="option" attr-value="{{ c }}">{{ context.category_names[c][0] }}<span class="small">&nbsp;{{ context.category_names[c][1] }}</span></li>
-				{% endfor %}
-				</ul>
-				<div class="floatL arrowBox">&#9662;</div>
+			<div class="selected clearfix" attr-value="figure" style="cursor: default;">
+				<div class="floatL htmlhere">참여중인 경매</div>
 			</div>
 		</div>
 		<div class="floatR">
